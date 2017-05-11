@@ -89,7 +89,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\EngineCore;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,7 +152,6 @@
     <ClCompile Include="ContextCreator.cpp" />
     <ClCompile Include="EventLoop.cpp" />
     <ClCompile Include="Global.cpp" />
-    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="StandaloneMain.cpp" />
     <ClCompile Include="WindowUtils.cpp" />
     <ClCompile Include="WndProcHandler.cpp" />
@@ -161,9 +160,13 @@
     <ClInclude Include="ContextCreator.h" />
     <ClInclude Include="EventLoop.h" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="Logger.h" />
     <ClInclude Include="WindowUtils.h" />
     <ClInclude Include="WndProcHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EngineCore\EngineCore.vcxproj">
+      <Project>{7c920cd0-bf6b-4435-bccf-90bba758ea37}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

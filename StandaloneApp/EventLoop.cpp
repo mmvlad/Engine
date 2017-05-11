@@ -4,10 +4,10 @@ int EventLoop()
 {
 	MSG msg;
 
-	while (GetMessage(&msg, NULL, 0, 0))
+	while (GetMessageA(&msg, NULL, 0, 0))
 	{
 		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		DispatchMessageA(&msg);
 	}
 
 	return (int)msg.wParam;

@@ -5,17 +5,51 @@
 #include "EventLoop.h"
 #include "Logger.h"
 
+// DLL header
+#include "App.h"
+
 #pragma comment (lib, "opengl32.lib")
 
-LRESULT CALLBACK TempCallback(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void BindStdHandlesToConsole()
 {
-	return 0;
+	// Redirect the CRT standard input, output, and error handles to the console
+	FILE * tmp;
+
+	freopen_s(&tmp, "CONIN$", "r", stdin);
+	freopen_s(&tmp, "CONOUT$", "w", stdout);
+	freopen_s(&tmp, "CONOUT$", "w", stderr);
+
+	//Clear the error state for each of the C++ standard stream objects. We need to do this, as
+	//attempts to access the standard streams before they refer to a valid target will cause the
+	//iostream objects to enter an error state. In versions of Visual Studio after 2005, this seems
+	//to always occur during startup regardless of whether anything has been read from or written to
+	//the console or not.
+	std::wcout.clear();
+	std::cout.clear();
+	std::wcerr.clear();
+	std::cerr.clear();
+	std::wcin.clear();
+	std::cin.clear();
+}
+
+void SetConsole()
+{
+	if (AllocConsole())
+	{
+		BindStdHandlesToConsole();
+	}
 }
 
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
 	GlobalHandleInstance = hInstance;
+
+#if _DEBUG
+
+	SetConsole();
+
+#endif
 	
 	WNDCLASSA WindowClass = {};
 	WindowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -33,7 +67,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 			CreateWindowExA(
 				0, // WS_EX_TOPMOST|WS_EX_LAYERED,
 				WindowClass.lpszClassName,
-				"Kek",
+				"Engine v0.1",
 				WS_OVERLAPPEDWINDOW,
 				CW_USEDEFAULT,
 				CW_USEDEFAULT,
@@ -52,32 +86,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 			GlobalDeviceContext = GetDC(Window);
 			GlobalOpenGlRenderContext = Win32InitOpenGL(GlobalDeviceContext);
 
-			ReleaseDC(MainWindow, GlobalDeviceContext);
+			Log::Info(string_format("Device context [%p]", (void*)&GlobalDeviceContext));
+
+			//ReleaseDC(MainWindow, GlobalDeviceContext);
 			ShowWindow(Window, nCmdShow);
 		}
 	}
 
-	/*DestroyWindow(mainWindow);
-	UnregisterClass(_T("mainWindowClass"), hInstance);
+	App::Init(&GlobalDeviceContext);
 
-	if (!CreateNewWindow(_T("mainWindowClass"), _T("Main App"), MainWindowCallback, mainWindow))
-	{
-		Log::Error("Can't create window");
-
-		return 1;
-	}*/
-
-	
-
-	//MakeFullScreen(MainWindow);
-
-	//HDC GlobalDeviceContext = GetDC(mainWindow);
-	//HGLRC GlobalOpenGLRendercontetx = Win32InitOpenGL(GlobalDeviceContext, hInstance);
-
-	//
-	//CreateContext(mainWindow);
-
-	
-
-	return EventLoop();
+	return App::Start();
 }

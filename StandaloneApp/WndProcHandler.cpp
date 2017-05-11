@@ -33,7 +33,7 @@ LRESULT CALLBACK MainWindowCallback(HWND hWnd, UINT message, WPARAM wParam, LPAR
 		PostQuitMessage(0);
 		break;
 	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
+		return DefWindowProcA(hWnd, message, wParam, lParam);
 		break;
 	}
 

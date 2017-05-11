@@ -9,7 +9,6 @@
 
 #include<iostream>
 
-void CreateContext(HWND handle);
 
 void DeleteOpenglContext(HGLRC openglContext);
 
