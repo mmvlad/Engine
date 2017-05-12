@@ -1,0 +1,180 @@
+#pragma once
+
+#pragma once
+
+#include <GL\glew.h>
+
+enum BufferType {
+	ARRAY_BUFFER = GL_ARRAY_BUFFER,
+	INDEX_BUFFER = GL_ELEMENT_ARRAY_BUFFER,
+	PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER,
+	PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER,
+	COPY_READ_BUFFER = GL_COPY_READ_BUFFER,
+	COPY_WRITE_BUFFER = GL_COPY_WRITE_BUFFER,
+	TRANSFORM_FEEDBACK_BUFFER = GL_TRANSFORM_FEEDBACK_BUFFER,
+
+	// buffer that can be modified by shader
+	SHADER_STORAGE_BUFFER = GL_SHADER_STORAGE_BUFFER,
+
+	// uniform buffer - for uniform blocks in shader
+	UNIFORM_BUFFER = GL_UNIFORM_BUFFER
+};
+
+enum CopyBufferType {
+	READ_BUFFER_TYPE = GL_COPY_READ_BUFFER,
+	WRITE_BUFFER_TYPE = GL_COPY_WRITE_BUFFER
+};
+
+enum BufferAccessType {
+	READ_ONLY_ACCESS = GL_READ_ONLY,
+	WRITE_ONLY_ACCESS = GL_WRITE_ONLY,
+	READ_WRITE_ACCESS = GL_READ_WRITE
+};
+
+enum MapBufferAccessBits {
+	MAP_READ_BIT = GL_MAP_READ_BIT,
+	MAP_WRITE_BIT = GL_MAP_WRITE_BIT,
+
+	MAP_INVALIDATE_RANGE_BIT = GL_MAP_INVALIDATE_RANGE_BIT, // invalidated data in range. Can't be used with GL_MAP_READ_BIT
+	MAP_INVALIDATE_BUFFER_BIT = GL_MAP_INVALIDATE_BUFFER_BIT, // invalidates whole buffer (with data outside of the range). can't be used with GL_MAP_READ_BIT.
+
+															  /*
+															  The application will take responsibility to signal to OpenGL which parts of the
+															  mapped range contain valid data by calling glFlushMappedBufferRange()
+															  prior to calling glUnmapBuffer(). Use this flag if a larger range of the buffer will
+															  be mapped and not all of it will be written by the application. This bit must
+															  be used in conjunction with GL_MAP_WRITE_BIT. If
+															  GL_MAP_FLUSH_EXPLICIT_BIT is not specified, glUnmapBuffer() will automatically flush the entirety of the mapped range.
+															  */
+	MAP_FLUSH_EXPLICIT_BIT = GL_MAP_FLUSH_EXPLICIT_BIT,
+
+	/*
+	If this bit is not specified, OpenGL will wait until all pending operations that
+	may access the buffer have completed before returning the mapped range. If
+	this flag is set, OpenGL will not attempt to synchronize operations on the buffer.
+	*/
+	MAP_UNSYNCHRONIZED_BIT = GL_MAP_UNSYNCHRONIZED_BIT
+
+};
+
+enum UsageType {
+	STREAM_DRAW = GL_STREAM_DRAW,
+	STREAM_READ = GL_STREAM_READ,
+	STREAM_COPY = GL_STREAM_COPY,
+
+	STATIC_DRAW = GL_STATIC_DRAW,
+	STATIC_READ = GL_STATIC_READ,
+	STATIC_COPY = GL_STATIC_COPY,
+
+	DYNAMIC_DRAW = GL_DYNAMIC_DRAW,
+	DYNAMIC_READ = GL_DYNAMIC_READ,
+	DYNAMIC_COPY = GL_DYNAMIC_COPY
+};
+
+enum ColorComponents {
+	R = 1,
+	RG = 2,
+	RGB = 3,
+	RGBA = 4,
+	BGRA = GL_BGRA
+};
+
+enum DataType {
+	TYPE_BYTE = GL_BYTE,
+	TYPE_UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
+	TYPE_SHORT = GL_SHORT,
+	TYPE_UNSIGNED_SHORT = GL_UNSIGNED_SHORT,
+	TYPE_INT = GL_INT,
+	TYPE_UNSIGNED_INT = GL_UNSIGNED_INT,
+	TYPE_FIXED = GL_FIXED,
+	TYPE_HALF_FLOAT = GL_HALF_FLOAT,
+	TYPE_FLOAT = GL_FLOAT,
+	TYPE_DOUBLE = GL_DOUBLE
+};
+
+enum ClearBufferType {
+	COLOR_BUFFER = GL_COLOR_BUFFER_BIT,
+	DEPTH_BUFFER = GL_DEPTH_BUFFER_BIT,
+	STENCIL_BUFFER = GL_STENCIL_BUFFER_BIT
+};
+
+enum DrawMode {
+	MODE_POINTS = GL_POINTS,
+	MODE_LINES = GL_LINES,
+	MODE_LINE_STRIP = GL_LINE_STRIP,
+	MODE_LINE_LOOP = GL_LINE_LOOP,
+	MODE_TRIANGLES = GL_TRIANGLES,
+	MODE_TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+	MODE_TRIANGLE_FAN = GL_TRIANGLE_FAN,
+	MODE_PATCHES = GL_PATCHES
+};
+
+enum Capability {
+	DEPTH_TEST = GL_DEPTH_TEST,
+	BLEND = GL_BLEND,
+	RASTERIZER_DISCARD = GL_RASTERIZER_DISCARD
+};
+
+enum ShaderType {
+	VERTEX_SHADER = GL_VERTEX_SHADER,
+	FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
+	TESSELATION_CONTROL_SHADER = GL_TESS_CONTROL_SHADER,
+	TESSELATION_EVAL_SHADER = GL_TESS_EVALUATION_SHADER,
+	GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
+	COMPUTE_SHADER = GL_COMPUTE_SHADER
+};
+
+enum ShaderInfoType {
+	SHADER_TYPE = GL_SHADER_TYPE,
+	SHADER_DELETE_STATUS = GL_DELETE_STATUS,
+	SHADER_COMPILE_STATUS = GL_COMPILE_STATUS,
+	SHADER_INFO_LOG_LENGTH = GL_INFO_LOG_LENGTH,
+	SHADER_SOURCE_LENGTH = GL_SHADER_SOURCE_LENGTH
+};
+
+enum ShaderProgramInfoType {
+	PROGRAM_DELETE_STATUS = GL_DELETE_STATUS,
+	PROGRAM_LINK_STATUS = GL_LINK_STATUS,
+	PROGRAM_VALIDATE_STATUS = GL_VALIDATE_STATUS,
+	PROGRAM_INFO_LOG_LENGTH = GL_INFO_LOG_LENGTH,
+	PROGRAM_ATTACHED_SHADERS_COUNT = GL_ATTACHED_SHADERS,
+	PROGRAM_ACTIVE_ATTRIBUTES_COUNT = GL_ACTIVE_ATTRIBUTES,
+	PROGRAM_ACTIVE_ATTRIBUTE_MAX_LENGTH = GL_ACTIVE_ATTRIBUTE_MAX_LENGTH,
+	PROGRAM_ACTIVE_UNIFORMS_COUNT = GL_ACTIVE_UNIFORMS,
+	PROGRAM_ACTIVE_UNIFORM_MAX_LENGTH = GL_ACTIVE_UNIFORM_MAX_LENGTH
+};
+
+
+enum PrimitiveType {
+	POINTS_TYPE = GL_POINTS,
+	LINES_TYPE = GL_LINES,
+	LINE_STRIP_TYPE = GL_LINE_STRIP,
+	LINE_LOOP_TYPE = GL_LINE_LOOP,
+	TRIANGLES_TYPE = GL_TRIANGLES,
+	TRIANGLE_STRIP_TYPE = GL_TRIANGLE_STRIP,
+	TRIANGLE_FAN_TYPE = GL_TRIANGLE_FAN
+};
+
+// How polygon face should be drawn. Default is FILL
+enum PolygonMode {
+	POINT_POLYMODE = GL_POINT,
+	LINE_POLYMODE = GL_LINE,
+	FILL_POLYMODE = GL_FILL
+};
+
+enum PolygonFace {
+	FRONT_AND_BACK = GL_FRONT_AND_BACK
+};
+
+// see GLWrap::SetFrontFaceMode(...)
+enum FrontFacePolygonMode {
+	CLOCKWISE = GL_CW,
+	COUNTER_CLOCKWISE = GL_CCW
+};
+
+
+enum CullMode {
+	FRONT_MODE = GL_FRONT,
+	BACK_MODE = GL_BACK,
+	FRONT_AND_BACK_MODE = GL_FRONT_AND_BACK
+};

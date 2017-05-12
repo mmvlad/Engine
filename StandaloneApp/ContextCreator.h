@@ -10,10 +10,6 @@
 #include<iostream>
 
 
-void DeleteOpenglContext(HGLRC openglContext);
 
-void Win32SetPixelFormat(HDC WindowDC);
-
-void LoadWglExtensions();
 
 HGLRC Win32InitOpenGL(HDC WindowDC);

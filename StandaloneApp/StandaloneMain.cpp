@@ -60,6 +60,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 	WindowClass.lpszClassName = "MainAppWindowClass";
 	WindowClass.lpszMenuName = NULL;
 
+	int posx = (GetSystemMetrics(SM_CXSCREEN) / 2) - (500 / 2);
+	int posy = (GetSystemMetrics(SM_CYSCREEN) / 2) - (500 / 2);
+
 
 	if (RegisterClassA(&WindowClass))
 	{
@@ -69,10 +72,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 				WindowClass.lpszClassName,
 				"Engine v0.1",
 				WS_OVERLAPPEDWINDOW,
-				CW_USEDEFAULT,
-				CW_USEDEFAULT,
-				CW_USEDEFAULT,
-				CW_USEDEFAULT,
+				posx,
+				posy,
+				500,
+				500,
 				0,
 				0,
 				hInstance,
@@ -86,7 +89,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 			GlobalDeviceContext = GetDC(Window);
 			GlobalOpenGlRenderContext = Win32InitOpenGL(GlobalDeviceContext);
 
-			Log::Info(string_format("Device context [%p]", (void*)&GlobalDeviceContext));
+			//Log::Info(string_format("Device context [%p]", (void*)&GlobalDeviceContext));
 
 			//ReleaseDC(MainWindow, GlobalDeviceContext);
 			ShowWindow(Window, nCmdShow);

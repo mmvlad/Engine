@@ -1,23 +1,20 @@
 #include "ContextCreator.h"
 #include "WindowUtils.h"
-#include "WndProcHandler.h"
 #include "Logger.h"
 
+
+void Win32SetPixelFormat(HDC WindowDC);
+void LoadWglExtensions();
 void ClearTrash();
 
-
-static bool wglChoosePixelFormatARBInited = false;
-
-void DeleteOpenglContext(HGLRC openglContext)
-{
-	wglMakeCurrent(NULL, NULL);
-
-	wglDeleteContext(openglContext);
-}
+static bool WglChoosePixelFormatARBInited = false;
+static HGLRC TempOpenGLRC;
+static HWND TempWindow;
+static HDC TempWindowDC;
 
 int Win32OpenGLAttribs[] =
 {
-	WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
+	WGL_CONTEXT_MAJOR_VERSION_ARB, 4, // Requesting opengl context version 4
 	WGL_CONTEXT_MINOR_VERSION_ARB, 0,
 	WGL_CONTEXT_FLAGS_ARB, 0
 	,
@@ -25,35 +22,44 @@ int Win32OpenGLAttribs[] =
 	0,
 };
 
+std::string GetLastErrorAsString()
+{
+	//Get the error message, if any.
+	DWORD errorMessageID = ::GetLastError();
+	if (errorMessageID == 0)
+		return std::string(); //No error message has been recorded
+
+	LPSTR messageBuffer = nullptr;
+	size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+
+	std::string message(messageBuffer, size);
+
+	//Free the buffer.
+	LocalFree(messageBuffer);
+
+	return message;
+}
+
+/**
+ * \brief Inits opengl and returns opengl render context
+ * \param WindowDC handle to window
+ * \return opengl render context
+ */
 HGLRC Win32InitOpenGL(HDC WindowDC)
 {
 	LoadWglExtensions();
 
+	// set is possible advanced pixel format fo MAIN window
+	Win32SetPixelFormat(WindowDC);
+
 	bool ModernContext	= true;
 	HGLRC OpenGLRC		= 0;
 
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
+	// Try create advanced opengl context
+	if (WglChoosePixelFormatARBInited)
 	{
-		const char* errMsg = (char*)glewGetErrorString(err);
-		//Log::Error(errMsg);
-		Log::Error("Error initing glew");
-
-		return 0;
-	}
-
-	Log::Info("Glew inited first time");
-
-	if (wglChoosePixelFormatARBInited)
-	{
-		Win32SetPixelFormat(WindowDC);
-
-		Log::Info("Trying to create advanced context");
-
 		OpenGLRC = wglCreateContextAttribsARB(WindowDC, 0, Win32OpenGLAttribs);
-	} else
-	{
-		Log::Error("wglChoosePixelFormatARBInited is not inited");
 	}
 
 	ClearTrash();
@@ -64,46 +70,43 @@ HGLRC Win32InitOpenGL(HDC WindowDC)
 		OpenGLRC		= wglCreateContext(WindowDC);
 
 		Log::Error("Couldn't create advanced opengl context, using regular");
-	} else
-	{
-		Log::Info(string_format("Advanced context created [%p]", (void*)&OpenGLRC));
+		Log::Error("Last error: " + GetLastErrorAsString());
 	}
 
 	if (wglMakeCurrent(WindowDC, OpenGLRC))
 	{
 		Log::Info("Opengl context made current");
+
+		GLenum err = glewInit();
+		if (GLEW_OK != err)
+		{
+			const char* errMsg = (char*)glewGetErrorString(err);
+
+			Log::Error("Error initing glew");
+			Log::Error(errMsg);
+		}
+
 		/*if (wglSwapInterval)
 		{
 			wglSwapInterval(1);
 		}*/
-	}
-
-
-	if (GLEW_OK != err)
+	} else
 	{
-		const char* errMsg = (char*)glewGetErrorString(err);
-		//Log::Error(errMsg);
-		Log::Error("Error initing glew");
-
-		return 0;
+		Log::Error("Failed to make opengl context current");
 	}
-
-	Log::Info("Glew inited");
 
 	return(OpenGLRC);
 }
 
-static HGLRC TempOpenGLRC;
-static HWND TempWindow;
-static HDC TempWindowDC;
 
+// Creates temp window, sets basic pixel format, then loads extesnsions (Inits glew)
 void LoadWglExtensions()
 {
 	WNDCLASSA WindowClass = {};
 
-	WindowClass.lpfnWndProc = DefWindowProcA;
-	WindowClass.hInstance = GetModuleHandle(0);
-	WindowClass.lpszClassName = "HandmadeWGLLoader";
+	WindowClass.lpfnWndProc		= DefWindowProcA;
+	WindowClass.hInstance		= GetModuleHandle(0);
+	WindowClass.lpszClassName	= "HandmadeWGLLoader";
 
 	if (RegisterClassA(&WindowClass))
 	{
@@ -114,27 +117,40 @@ void LoadWglExtensions()
 			0,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
-			CW_USEDEFAULT,
-			CW_USEDEFAULT,
+			500,
+			500,
 			0,
 			0,
 			WindowClass.hInstance,
 			0);
 
-		TempWindowDC = GetDC(TempWindow);
-		Win32SetPixelFormat(TempWindowDC);
-
-		TempOpenGLRC = wglCreateContext(TempWindowDC);
-		if (wglMakeCurrent(TempWindowDC, TempOpenGLRC))
+		if (TempWindow)
 		{
-			wglChoosePixelFormatARBInited = true;
+			TempWindowDC = GetDC(TempWindow);
+			Win32SetPixelFormat(TempWindowDC);
+
+			TempOpenGLRC = wglCreateContext(TempWindowDC);
+
+			if (wglMakeCurrent(TempWindowDC, TempOpenGLRC))
+			{
+				WglChoosePixelFormatARBInited = true;
+
+				GLenum err = glewInit();
+				if (GLEW_OK != err)
+				{
+					const char* errMsg = (char*)glewGetErrorString(err);
+
+					Log::Error("Error initing glew");
+					Log::Error(errMsg);
+				}
+			}
 		}
 
-		//Trash will be cleaned after glew is inited
+		//Temp window and etc will be cleaned after glew is inited
 	}
 	else
 	{
-		Log::Error("Can't create dummy window");
+		Log::Error("Can't create temp window");
 	}
 }
 
@@ -152,7 +168,8 @@ void Win32SetPixelFormat(HDC WindowDC)
 
 	GLuint ExtendedPick = 0;
 
-	if (wglChoosePixelFormatARBInited)
+	// if extensions loaded (glew inited)
+	if (WglChoosePixelFormatARBInited)
 	{
 		int IntAttribList[] =
 		{
@@ -168,26 +185,31 @@ void Win32SetPixelFormat(HDC WindowDC)
 		float FloatAttribList[] = { 0 };
 
 		wglChoosePixelFormatARB(WindowDC, IntAttribList, FloatAttribList, 1, &SuggestedPixelFormatIndex, &ExtendedPick);
+
+		Log::Info(string_format("Advanced pixel format [%i]", SuggestedPixelFormatIndex));
 	}
 
 	if (!ExtendedPick)
 	{
-		PIXELFORMATDESCRIPTOR DesiredPixelFormat = {};
-		DesiredPixelFormat.nSize = sizeof(DesiredPixelFormat);
-		DesiredPixelFormat.nVersion = 1;
-		DesiredPixelFormat.iPixelType = PFD_TYPE_RGBA;
-		DesiredPixelFormat.dwFlags = PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER;
-		DesiredPixelFormat.cColorBits = 32;
-		DesiredPixelFormat.cAlphaBits = 8;
-		DesiredPixelFormat.iLayerType = PFD_MAIN_PLANE;
+		PIXELFORMATDESCRIPTOR DesiredPixelFormat	= {};
+		DesiredPixelFormat.nSize					= sizeof(DesiredPixelFormat);
+		DesiredPixelFormat.nVersion					= 1;
+		DesiredPixelFormat.iPixelType				= PFD_TYPE_RGBA;
+		DesiredPixelFormat.dwFlags					= PFD_SUPPORT_OPENGL | PFD_DRAW_TO_WINDOW | PFD_DOUBLEBUFFER;
+		DesiredPixelFormat.cColorBits				= 32;
+		DesiredPixelFormat.cAlphaBits				= 8;
+		DesiredPixelFormat.iLayerType				= PFD_MAIN_PLANE;
 
 		SuggestedPixelFormatIndex = ChoosePixelFormat(WindowDC, &DesiredPixelFormat);
-	}
 
-	//Log::Info("Suggested pixel format: %i", SuggestedPixelFormatIndex);
+		Log::Info(string_format("Regular pixel format [%i]", SuggestedPixelFormatIndex));
+	}
 
 	PIXELFORMATDESCRIPTOR SuggestedPixelFormat;
 	DescribePixelFormat(WindowDC, SuggestedPixelFormatIndex, sizeof(SuggestedPixelFormat), &SuggestedPixelFormat);
-	SetPixelFormat(WindowDC, SuggestedPixelFormatIndex, &SuggestedPixelFormat);
-
+	if (!SetPixelFormat(WindowDC, SuggestedPixelFormatIndex, &SuggestedPixelFormat))
+	{
+		Log::Error("Failed to set pixel format");
+		Log::Error("Last error: " + GetLastErrorAsString());
+	}
 }
