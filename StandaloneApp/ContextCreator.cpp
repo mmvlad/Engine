@@ -77,14 +77,19 @@ HGLRC Win32InitOpenGL(HDC WindowDC)
 	{
 		Log::Info("Opengl context made current");
 
-		GLenum err = glewInit();
+		//NOTE(vlad): GLEW will be inited in Engine Core DLL
+		
+		/*GLenum err = glewInit();
 		if (GLEW_OK != err)
 		{
 			const char* errMsg = (char*)glewGetErrorString(err);
 
 			Log::Error("Error initing glew");
 			Log::Error(errMsg);
-		}
+		} else
+		{
+			Log::Info("GLEW inited");
+		}*/
 
 		/*if (wglSwapInterval)
 		{

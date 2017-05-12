@@ -27,6 +27,9 @@
     <Filter Include="Source Files\Helpers">
       <UniqueIdentifier>{40ca8460-c14b-4acb-87eb-c86fd0834038}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GL">
+      <UniqueIdentifier>{c04b5158-2fb4-4752-921d-333c66c0fb2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -65,6 +68,24 @@
     <ClInclude Include="System.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineConfig.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Header Files\GL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -84,6 +105,18 @@
     </ClCompile>
     <ClCompile Include="System.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtils.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Source Files\GL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

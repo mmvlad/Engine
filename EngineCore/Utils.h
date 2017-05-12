@@ -6,7 +6,7 @@
 #include <string>
 #include <cstdio>
 
-
+std::string ReadFile(const std::string & path);
 
 template<typename ... Args>
 std::string string_format(const std::string& format, Args ... args)

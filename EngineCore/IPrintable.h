@@ -4,7 +4,7 @@
 #include <string>
 #include "Includes.h"
 
-INTERFACE IPrintable
+INTRFC IPrintable
 {
 
 	virtual const std::string ToString() const = 0;

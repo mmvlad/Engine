@@ -8,7 +8,9 @@
 
 #pragma comment (lib, "opengl32.lib")
 
-HDC* App::_hdc = NULL;
+HDC				* App::_hdc				= nullptr;
+ShaderManager	* App::_shaderManager	= nullptr;
+
 
 void
 OpenGLRectangle(glm::vec2 MinP, glm::vec2 MaxP, glm::vec4 Color)
@@ -181,6 +183,21 @@ void App::Render()
 	SwapBuffers(*_hdc);
 }
 
+void App::InitInternal()
+{
+	GLWrap::LoadExtensions();
+
+	InitManagers();
+}
+
+void App::InitManagers()
+{
+	_shaderManager = new ShaderManager();
+	_shaderManager->Init();
+
+
+}
+
 
 App::~App()
 {
@@ -190,12 +207,19 @@ App::~App()
 
 
 
-
+#include <experimental/filesystem>
 
 
 int App::Start()
 {
+	InitInternal();
+
 	System::OpenGlInfo();
+
+	System::LoadConfig();
+
+	/*std::string path = std::experimental::filesystem::current_path().string();
+	Log::Info("Current path: " + path);*/
 
 	//Log::Info(string_format("Device context passed to App [%p]", (void*)_hdc));
 

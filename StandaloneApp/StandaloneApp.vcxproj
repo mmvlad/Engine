@@ -89,7 +89,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\EngineCore;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\Json;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\EngineCore;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

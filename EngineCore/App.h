@@ -5,7 +5,8 @@
 
 #include <GL/glew.h>
 #include <GL/GL.h>
-
+#include "EngineConfig.h"
+#include "ShaderManager.h"
 
 
 class App
@@ -14,14 +15,18 @@ public:
 	~App();
 
 	static ENGINECORE_API int Start();
-	static ENGINECORE_API void Init(HDC* hdc) { _hdc = hdc; }
-
+	static ENGINECORE_API void Init(HDC* hdc)	{ _hdc = hdc; }
 
 private:
 	App();
 
 	static void Render();
 
-	static HDC* _hdc;
+	static void InitInternal();
+	static void InitManagers();
+
+private:
+	static HDC           *_hdc;
+	static ShaderManager *_shaderManager;
 };
 

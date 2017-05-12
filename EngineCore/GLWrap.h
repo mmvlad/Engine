@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL\glew.h>
+#include <Gl\GL.h>
 
 #include "Color.h"
 #include "Enums.h"
@@ -11,6 +12,18 @@
 class GLWrap
 {
 public:
+
+	static void LoadExtensions()
+	{
+		GLenum err = glewInit();
+		if (GLEW_OK != err)
+		{
+			const char* errMsg = (char*)glewGetErrorString(err);
+
+			Log::Error("Error initing glew");
+			Log::Error(errMsg);
+		}
+	}
 
 	/*
 	** Returns n currently unused names for use as vertex-array objects in the
@@ -378,7 +391,7 @@ public:
 
 	// Allocates a shader object
 	// returns 0 if error occured
-	static GLuint CreateShaderObject(const ShaderType shaderType) {
+	static GLuint CreateShaderObject(const ShaderType & shaderType) {
 		return glCreateShader(shaderType);
 	}
 
@@ -386,7 +399,7 @@ public:
 		glDeleteShader(shaderObject);
 	}
 
-	static void AddShaderSource(const GLuint shader, const std::string shaderSource /*, const std::string * parts*/) {
+	static void AddShaderSource(const GLuint shader, const std::string & shaderSource /*, const std::string * parts*/) {
 
 		/*	GLchar ** partsStr = new GLchar*[partCount];
 		GLint * lengths = new GLint[partCount];
@@ -399,14 +412,17 @@ public:
 
 		glShaderSource(shader, partCount, ptr, lengths);*/
 
-		std::string v = "#version 140\n";
+		/*std::string v = "#version 140\n";
 		std::string c = "//some common shader functions";
-		std::string s = shaderSource;
+		std::string s = shaderSource;*/
 
-		GLchar const* files[] = { v.c_str(), c.c_str(), s.c_str() };
+		/*GLchar const* files[] = { v.c_str(), c.c_str(), s.c_str() };
 		GLint lengths[] = { (GLint)v.size(),  (GLint)c.size(),  (GLint)s.size() };
 
-		glShaderSource(shader, 3, files, lengths);
+		glShaderSource(shader, 3, files, lengths);*/
+		const char* str = shaderSource.c_str();
+
+		glShaderSource(shader, 1, &str, NULL);
 	}
 
 	static void CompileShaderObject(const GLuint shader) {
