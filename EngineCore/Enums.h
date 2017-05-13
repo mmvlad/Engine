@@ -79,6 +79,14 @@ enum ColorComponents {
 	BGRA = GL_BGRA
 };
 
+enum NumComponents {
+	ONE = 1,
+	TWO = 2,
+	THREE = 3,
+	FOUR = 4,
+	COLOR_BGRA = GL_BGRA
+};
+
 enum DataType {
 	TYPE_BYTE = GL_BYTE,
 	TYPE_UNSIGNED_BYTE = GL_UNSIGNED_BYTE,

@@ -49,6 +49,8 @@ void gluPerspectiveCustom(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdoub
 
 void Resize(int width, int height)
 {
+	return;
+
 	if (height <= 0) height = 1;
 	int aspectratio = width / height;
 	glViewport(0, 0, width, height);
@@ -67,6 +69,7 @@ void Resize(int width, int height)
 
 	delete[] martix;
 }
+
 void glhFrustumf2(float *matrix, float left, float right, float bottom, float top,
 	float znear, float zfar)
 {

@@ -20,6 +20,9 @@ public:
 
 	const std::vector<std::string> & GetShaderList() const { return _shaderList; };
 
+	const Shader * const GetVertexShader	(const std::string & name) const;
+	const Shader * const GetFragmentShader	(const std::string & name) const;
+
 private:
 	void LoadShaderList();
 	void LoadShaders();

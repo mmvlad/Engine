@@ -14,7 +14,6 @@ Shader::Shader(const ShaderType & shaderType, const std::string& source):
 	Compile();
 
 	_inited = HasCompiled();
-	
 }
 
 Shader::~Shader()
@@ -30,7 +29,7 @@ void Shader::Compile() const
 	{
 		auto log = GLWrap::GetShaderObjectInfoLog(_id);
 
-		Log::Error("Shader has not compiled (id: " + std::to_string(_id) + ")");
+		Log::Error("Shader with id [" + std::to_string(_id) + "] failed to compile");
 		Log::Error("Compilation log: " +log);
 	}
 }

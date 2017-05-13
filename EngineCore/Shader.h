@@ -15,12 +15,13 @@ public:
 
 	
 public:
-	const unsigned int	Id()		const { return _id; }
-	const ShaderType	Type()		const { return _type; }
-	const bool			Inited()	const { return _inited; }
+	const unsigned int	Id()			const { return _id; }
+	const ShaderType	Type()			const { return _type; }
+	const bool			Inited()		const { return _inited; }
+	bool				HasCompiled()	const;
 
 private:
-	bool HasCompiled()	const;
+	
 	void Compile()		const;
 
 private:

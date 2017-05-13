@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
+#include "glm.hpp"
 
 #include "Logger.h"
 
@@ -48,6 +49,11 @@ public:
 		assert(hexStr.length() == 2);
 		unsigned int x = strtoul(hexStr.substr(0, 2).c_str(), NULL, 16);
 		return (float)x;
+	}
+
+	glm::vec4 ToVector() const
+	{
+		return glm::vec4(_r, _g, _b, _a);
 	}
 
 private:

@@ -23,6 +23,26 @@ void ShaderManager::Init()
 	LoadShaders();
 }
 
+const Shader* const ShaderManager::GetVertexShader(const std::string& name) const
+{
+	if (_vertexSaderMap.find(name) != _vertexSaderMap.end())
+	{
+		return _vertexSaderMap.at(name);
+	}
+
+	return nullptr;
+}
+
+const Shader* const ShaderManager::GetFragmentShader(const std::string& name) const
+{
+	if (_fragmentSaderMap.find(name) != _fragmentSaderMap.end())
+	{
+		return _fragmentSaderMap.at(name);
+	}
+
+	return nullptr;
+}
+
 void ShaderManager::LoadShaderList()
 {
 	auto shaderListPath = FileUtils::CombinePath(CONFIG_DIR, SHADERS_FILENAME);
@@ -33,16 +53,13 @@ void ShaderManager::LoadShaderList()
 		return;
 	}
 
-	std::string jsonStr = FileUtils::StringFromFile(shaderListPath);
-
-	json jsonList = json::parse(jsonStr.c_str());
+	std::string jsonStr		= FileUtils::StringFromFile(shaderListPath);
+	json		jsonList	= json::parse(jsonStr.c_str());
 
 	for (auto it = jsonList.begin(); it != jsonList.end(); ++it) {
 		std::string shaderName = *it;
 		_shaderList.push_back(shaderName);
-		//Log::Info(shaderName);
 	}
-
 }
 
 void ShaderManager::LoadShaders()
@@ -76,11 +93,27 @@ void ShaderManager::LoadShaders()
 
 		if (hasFiles)
 		{
+			//TODO(vlad): Add includes here from Includes dir with basic parameters
 			std::string vertexSource		= FileUtils::StringFromFile(vertexPath);
 			std::string fragmentSource		= FileUtils::StringFromFile(fragmentPath);
 
-			_vertexSaderMap[shaderName]		= new Shader(ShaderType::VERTEX_SHADER, vertexSource);
-			_fragmentSaderMap[shaderName]	= new Shader(ShaderType::FRAGMENT_SHADER, fragmentSource);
+			Shader * vertexShader			= new Shader(ShaderType::VERTEX_SHADER, vertexSource);
+			Shader * fragmentShader			= new Shader(ShaderType::FRAGMENT_SHADER, fragmentSource);
+
+			if (!vertexShader->HasCompiled() || !fragmentShader->HasCompiled())
+			{
+				Log::Error("One of the shaders failed to compile. Shader [" + shaderName + "] wasn't loaded");
+
+				delete vertexShader;
+				delete fragmentShader;
+
+				continue;
+			}
+
+			_vertexSaderMap[shaderName]		= vertexShader;
+			_fragmentSaderMap[shaderName]	= fragmentShader;
+
+			Log::Info("Shader [" + shaderName + "] loaded");
 		}
 	}
 }

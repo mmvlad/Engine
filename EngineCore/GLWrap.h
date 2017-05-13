@@ -245,8 +245,9 @@ public:
 	** byteOffsetBetweenElements - is the byte offset between consecutive elements in the array
 	** offsetFromBufferStartInBytes - is the offset from the start of the buffer object in bytes for the first set of values in the array
 	*/
-	static void VertexAttribPointer(const GLuint			location,
-		const ColorComponents	components,
+	static void VertexAttribPointer(
+		const GLuint			location,
+		const NumComponents		components,
 		const DataType			dataType,
 		const GLboolean			shouldBeNormalized,
 		const GLsizei			byteOffsetBetweenElements,
@@ -531,7 +532,15 @@ public:
 		glCullFace(mode);
 	}
 
+	static int GetShaderVariableLocation(unsigned int programId, const char * variableName)
+	{
+		return glGetAttribLocation(programId, variableName);
+	}
 
+	static void BindShaderVariableLocation(unsigned int programId, unsigned int location, const char * variableName)
+	{
+		glBindAttribLocation(programId, location, variableName);
+	}
 
 };
 

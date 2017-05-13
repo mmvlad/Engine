@@ -7,6 +7,7 @@
 #include <GL/GL.h>
 #include "EngineConfig.h"
 #include "ShaderManager.h"
+#include "MaterialManager.h"
 
 
 class App
@@ -26,7 +27,8 @@ private:
 	static void InitManagers();
 
 private:
-	static HDC           *_hdc;
-	static ShaderManager *_shaderManager;
+	static HDC				* _hdc;
+	static ShaderManager	* _shaderManager;
+	static MaterialManager	* _materialManager;
 };
 

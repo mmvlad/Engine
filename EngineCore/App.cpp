@@ -5,21 +5,22 @@
 #include "GLWrap.h"
 #include "GlUtils.h"
 #include "System.h"
+#include "GlMaterial.h"
+#include "GlMeshRenderer.h"
 
 #pragma comment (lib, "opengl32.lib")
 
 HDC				* App::_hdc				= nullptr;
 ShaderManager	* App::_shaderManager	= nullptr;
+MaterialManager	* App::_materialManager = nullptr;
 
 
 void
-OpenGLRectangle(glm::vec2 MinP, glm::vec2 MaxP, glm::vec4 Color)
+OpenGLRectangle(glm::vec2 MinP, glm::vec2 MaxP)
 {
 	glBegin(GL_TRIANGLES);
 
-	glColor4f(Color.r, Color.g, Color.b, Color.a);
-
-	// NOTE(casey): Lower triangle
+	// NOTE(vlad): Lower triangle
 	//glTexCoord2f(0.0f, 0.0f);
 	glVertex2f(MinP.x, MinP.y);
 
@@ -29,7 +30,7 @@ OpenGLRectangle(glm::vec2 MinP, glm::vec2 MaxP, glm::vec4 Color)
 	//glTexCoord2f(1.0f, 1.0f);
 	glVertex2f(MaxP.x, MaxP.y);
 
-	// NOTE(casey): Upper triangle
+	// NOTE(vlad): Upper triangle
 	//glTexCoord2f(0.0f, 0.0f);
 	glVertex2f(MinP.x, MinP.y);
 
@@ -162,6 +163,10 @@ game_state interpolate(game_state const & current, game_state const & previous, 
 	return interpolated_state;
 }
 
+GlMeshRenderer * testRenderer;
+
+
+
 App::App()
 {
 
@@ -169,16 +174,18 @@ App::App()
 
 void App::Render()
 {
-	Color b = Color::FromHexRGB("20fb82");
-	GLWrap::SetClearColor(b);
+	GLWrap::SetClearColor(Color::FromHexRGB("20fb82"));
 
 	GLWrap::ClearBuffer(ClearBufferType::COLOR_BUFFER);
 
-	//OpenGLRectangle(glm::vec2(-0.5f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1, 1, 1, 1));
 
-	OpenGLRectangle(glm::vec2(0, 0), glm::vec2(199.0f, 199.0f), glm::vec4(1, 1, 1, 1));
+	/*App::_materialManager->_defaultMaterial->Use();
 
-	GLWrap::Flush();
+	OpenGLRectangle(glm::vec2(0, 0), glm::vec2(100.0f, 100.0f));*/
+
+	testRenderer->Render();
+
+	//GLWrap::Flush();
 
 	SwapBuffers(*_hdc);
 }
@@ -188,6 +195,19 @@ void App::InitInternal()
 	GLWrap::LoadExtensions();
 
 	InitManagers();
+
+	auto c = Color::FromHexRGB("c41770");
+
+	Mesh * m = new Mesh();
+	m->AddVertex(glm::vec3(0.0f, 0.5f, 0.0f));
+	m->AddVertex(glm::vec3(0.5f, -0.5f, 0.0f));
+	m->AddVertex(glm::vec3(-0.5f, -0.5f, 0.0f));
+
+	m->AddColor(Color::FromBytes(255).ToVector());
+	m->AddColor(Color::FromBytes(0, 255).ToVector());
+	m->AddColor(Color::FromBytes(0, 0, 255).ToVector());
+
+	testRenderer = new GlMeshRenderer(*m, *(App::_materialManager->_defaultMaterial));
 }
 
 void App::InitManagers()
@@ -195,7 +215,8 @@ void App::InitManagers()
 	_shaderManager = new ShaderManager();
 	_shaderManager->Init();
 
-
+	_materialManager = new MaterialManager();
+	_materialManager->Init(_shaderManager);
 }
 
 
@@ -223,7 +244,7 @@ int App::Start()
 
 	//Log::Info(string_format("Device context passed to App [%p]", (void*)_hdc));
 
-	Resize(500, 500);
+	//Resize(500, 500);
 
 	using clock = std::chrono::high_resolution_clock;
 
