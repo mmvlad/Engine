@@ -18,7 +18,5 @@ void MaterialManager::Init(const ShaderManager* shaderManager)
 	_shaderManager = shaderManager;
 
 	_defaultMaterial = new GlMaterial(_shaderManager, "Diffuse");
-
-	Color c = Color::FromHexRGB("bc2198");
 }
 

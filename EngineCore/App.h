@@ -5,9 +5,9 @@
 
 #include <GL/glew.h>
 #include <GL/GL.h>
-#include "EngineConfig.h"
-#include "ShaderManager.h"
-#include "MaterialManager.h"
+#include "SceneManager.h"
+#include "GlRender.h"
+#include "BaseMeshManager.h"
 
 
 class App
@@ -21,14 +21,14 @@ public:
 private:
 	App();
 
-	static void Render();
-
 	static void InitInternal();
 	static void InitManagers();
 
 private:
+	//NOTE(vlad): HDC is not used for now
 	static HDC				* _hdc;
-	static ShaderManager	* _shaderManager;
-	static MaterialManager	* _materialManager;
+	static SceneManager		* _sceneManager;
+	static GlRender			* _renderer;
+	static BaseMeshManager	* _meshManager;
 };
 

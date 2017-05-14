@@ -12,9 +12,6 @@
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{3808969d-2584-4561-9c48-e4c896200605}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shaders">
-      <UniqueIdentifier>{091de710-ce1f-4a84-909e-ba8569b676d1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{d85b8fa5-9233-4206-b065-238014c0fe0c}</UniqueIdentifier>
     </Filter>
@@ -77,9 +74,6 @@
     <ClInclude Include="Shader.h">
       <Filter>Header Files\GL</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
     <ClInclude Include="Config.h">
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
@@ -107,11 +101,29 @@
     <ClInclude Include="GlConfig.h">
       <Filter>Header Files\GL</Filter>
     </ClInclude>
-    <ClInclude Include="GlMeshRenderer.h">
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="DataParser.h">
+      <Filter>Header Files\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMeshManager.h">
+      <Filter>Header Files\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="GlRender.h">
       <Filter>Header Files\GL</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderable.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GlMesh.h">
+      <Filter>Header Files\GL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,13 +142,7 @@
     <ClCompile Include="Color.cpp">
       <Filter>Source Files\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
       <Filter>Source Files\GL</Filter>
     </ClCompile>
     <ClCompile Include="FileUtils.cpp">
@@ -157,7 +163,31 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Impl</Filter>
     </ClCompile>
-    <ClCompile Include="GlMeshRenderer.cpp">
+    <ClCompile Include="System.cpp">
+      <Filter>Source Files\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="DataParser.cpp">
+      <Filter>Source Files\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMeshManager.cpp">
+      <Filter>Source Files\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GlMesh.cpp">
+      <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="GlRender.cpp">
       <Filter>Source Files\GL</Filter>
     </ClCompile>
   </ItemGroup>

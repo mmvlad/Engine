@@ -5,17 +5,16 @@
 class ShaderManager;
 class GlMaterial;
 
-class MaterialManager
+class MaterialManager final
 {
-private:
-	APP_MANAGER(MaterialManager);
-
 
 public:
-	virtual ~MaterialManager();
+	MaterialManager();
+	~MaterialManager();
 
 	void Init(const ShaderManager * shaderManager);
 
+	const GlMaterial * const DefaultMaterial() { return _defaultMaterial; }
 
 private:
 	const ShaderManager * _shaderManager;

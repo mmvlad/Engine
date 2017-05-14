@@ -10,10 +10,8 @@ class Shader;
 
 class ShaderManager
 {
-private:
-	APP_MANAGER(ShaderManager);
-
 public:
+	ShaderManager();
 	virtual ~ShaderManager();
 
 	void Init();

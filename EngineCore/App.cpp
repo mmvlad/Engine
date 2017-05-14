@@ -6,66 +6,18 @@
 #include "GlUtils.h"
 #include "System.h"
 #include "GlMaterial.h"
-#include "GlMeshRenderer.h"
+
 
 #pragma comment (lib, "opengl32.lib")
 
 HDC				* App::_hdc				= nullptr;
-ShaderManager	* App::_shaderManager	= nullptr;
-MaterialManager	* App::_materialManager = nullptr;
+SceneManager	* App::_sceneManager	= nullptr;
+GlRender		* App::_renderer		= nullptr;
+BaseMeshManager * App::_meshManager		= nullptr;
 
 
-void
-OpenGLRectangle(glm::vec2 MinP, glm::vec2 MaxP)
-{
-	glBegin(GL_TRIANGLES);
 
-	// NOTE(vlad): Lower triangle
-	//glTexCoord2f(0.0f, 0.0f);
-	glVertex2f(MinP.x, MinP.y);
 
-	//glTexCoord2f(1.0f, 0.0f);
-	glVertex2f(MaxP.x, MinP.y);
-
-	//glTexCoord2f(1.0f, 1.0f);
-	glVertex2f(MaxP.x, MaxP.y);
-
-	// NOTE(vlad): Upper triangle
-	//glTexCoord2f(0.0f, 0.0f);
-	glVertex2f(MinP.x, MinP.y);
-
-	//glTexCoord2f(1.0f, 1.0f);
-	glVertex2f(MaxP.x, MaxP.y);
-
-	//glTexCoord2f(0.0f, 1.0f);
-	glVertex2f(MinP.x, MaxP.y);
-
-	glEnd();
-}
-
-/*
-* The MIT License (MIT)
-*
-* Copyright (c) 2016 Mario Badr
-*
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-*
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
 
 #include <chrono>
 
@@ -163,60 +115,40 @@ game_state interpolate(game_state const & current, game_state const & previous, 
 	return interpolated_state;
 }
 
-GlMeshRenderer * testRenderer;
-
-
 
 App::App()
 {
 
 }
 
-void App::Render()
-{
-	GLWrap::SetClearColor(Color::FromHexRGB("20fb82"));
-
-	GLWrap::ClearBuffer(ClearBufferType::COLOR_BUFFER);
-
-
-	/*App::_materialManager->_defaultMaterial->Use();
-
-	OpenGLRectangle(glm::vec2(0, 0), glm::vec2(100.0f, 100.0f));*/
-
-	testRenderer->Render();
-
-	//GLWrap::Flush();
-
-	SwapBuffers(*_hdc);
-}
-
 void App::InitInternal()
 {
-	GLWrap::LoadExtensions();
-
 	InitManagers();
 
-	auto c = Color::FromHexRGB("c41770");
+	//auto c = Color::FromHexRGB("c41770");
 
-	Mesh * m = new Mesh();
-	m->AddVertex(glm::vec3(0.0f, 0.5f, 0.0f));
-	m->AddVertex(glm::vec3(0.5f, -0.5f, 0.0f));
-	m->AddVertex(glm::vec3(-0.5f, -0.5f, 0.0f));
+	//Mesh * m = new Mesh();
+	//m->AddVertex(glm::vec3(0.0f, 0.5f, 0.0f));
+	//m->AddVertex(glm::vec3(0.5f, -0.5f, 0.0f));
+	//m->AddVertex(glm::vec3(-0.5f, -0.5f, 0.0f));
 
-	m->AddColor(Color::FromBytes(255).ToVector());
-	m->AddColor(Color::FromBytes(0, 255).ToVector());
-	m->AddColor(Color::FromBytes(0, 0, 255).ToVector());
+	//m->AddColor(Color::FromBytes(255).ToVector());
+	//m->AddColor(Color::FromBytes(0, 255).ToVector());
+	//m->AddColor(Color::FromBytes(0, 0, 255).ToVector());
 
-	testRenderer = new GlMeshRenderer(*m, *(App::_materialManager->_defaultMaterial));
+	//testRenderer = new GlMeshRenderer(*m, *(App::_materialManager->_defaultMaterial));
 }
 
 void App::InitManagers()
 {
-	_shaderManager = new ShaderManager();
-	_shaderManager->Init();
+	_sceneManager = new SceneManager();
+	_sceneManager->Init();
 
-	_materialManager = new MaterialManager();
-	_materialManager->Init(_shaderManager);
+	_renderer = new GlRender();
+	_renderer->Init(_hdc, _sceneManager);
+
+	_meshManager = new BaseMeshManager();
+
 }
 
 
@@ -238,6 +170,8 @@ int App::Start()
 	System::OpenGlInfo();
 
 	System::LoadConfig();
+
+	_sceneManager->LoadScene("MainScene");
 
 	/*std::string path = std::experimental::filesystem::current_path().string();
 	Log::Info("Current path: " + path);*/
@@ -278,7 +212,7 @@ int App::Start()
 
 		//render(interpolated_state);
 
-		Render();
+		_renderer->Render();
 	}
 
 	return 0;

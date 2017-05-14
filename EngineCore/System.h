@@ -2,6 +2,7 @@
 
 #include "Includes.h"
 #include "App.h"
+#include "EngineConfig.h"
 
 class System
 {

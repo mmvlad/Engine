@@ -20,26 +20,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="BaseMeshManager.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="DataParser.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FileUtils.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlConfig.h" />
     <ClInclude Include="GlInfo.h" />
     <ClInclude Include="GlMaterial.h" />
-    <ClInclude Include="GlMeshRenderer.h" />
+    <ClInclude Include="GlMesh.h" />
     <ClInclude Include="GlProgram.h" />
+    <ClInclude Include="GlRender.h" />
     <ClInclude Include="GlUtils.h" />
     <ClInclude Include="GLWrap.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="IPrintable.h" />
-    <ClInclude Include="IRenderable.h" />
     <ClInclude Include="LibHeader.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="System.h" />
@@ -47,16 +52,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="BaseMeshManager.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DataParser.cpp" />
     <ClCompile Include="FileUtils.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlMaterial.cpp" />
-    <ClCompile Include="GlMeshRenderer.cpp" />
+    <ClCompile Include="GlMesh.cpp" />
     <ClCompile Include="GlProgram.cpp" />
+    <ClCompile Include="GlRender.cpp" />
     <ClCompile Include="GlUtils.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="System.cpp" />
@@ -133,7 +144,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;GLEW_BUILD;ENGINE_CORE_EXPORTS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\Json;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\glm-0.9.8.4;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\objParser;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\Json;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\glm-0.9.8.4;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
