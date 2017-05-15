@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="BaseMeshManager.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="DataParser.h" />
@@ -53,6 +54,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="BaseMeshManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DataParser.cpp" />
     <ClCompile Include="FileUtils.cpp" />

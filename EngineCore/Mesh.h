@@ -12,11 +12,11 @@ public:
 
 	void AddVertex	(const glm::vec3 & vertex);
 	void AddColor	(const glm::vec4 & color);
-	void AddIndex	(int index);
+	void AddIndex	(unsigned int index);
 
-	const std::vector<glm::vec3> & Vertices()	const	{ return _vertexes; }
-	const std::vector<glm::vec4> & Colors()		const	{ return _colors; }
-	const std::vector<int>		 & Indices()	const	{ return _indexes; }
+	const std::vector<glm::vec3>	& Vertices()	const	{ return _vertexes; }
+	const std::vector<glm::vec4>	& Colors()		const	{ return _colors; }
+	const std::vector<unsigned int>	& Indices()		const	{ return _indexes; }
 
 
 private:
@@ -24,6 +24,6 @@ private:
 
 	std::vector<glm::vec3> _vertexes;
 	std::vector<glm::vec4> _colors;
-	std::vector<int> _indexes;
+	std::vector<unsigned int> _indexes;
 };
 

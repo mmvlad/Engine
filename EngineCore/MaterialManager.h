@@ -14,7 +14,7 @@ public:
 
 	void Init(const ShaderManager * shaderManager);
 
-	const GlMaterial * const DefaultMaterial() { return _defaultMaterial; }
+	GlMaterial * DefaultMaterial() { return _defaultMaterial; }
 
 private:
 	const ShaderManager * _shaderManager;

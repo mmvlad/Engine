@@ -47,6 +47,8 @@ void GlProgram::Link()
 
 	GLWrap::LinkShaderProgram(_id);
 
+	FindUniforms();
+
 	_hasLinked = HasLinkedInternal();
 
 	if (!_hasLinked)
@@ -85,5 +87,16 @@ void GlProgram::BindAttributes()
 {
 	GLWrap::BindShaderVariableLocation(_id, VERTEX_POSITION_LOCATION,	"in_vertex_position");
 	GLWrap::BindShaderVariableLocation(_id, VERTEX_COLOR_LOCATION,		"in_vertex_color");
+}
+
+void GlProgram::FindUniforms()
+{
+	_mvpMatrixLocation = GLWrap::GetUniformVarLocation(_id, "in_mvp");
+	if (_mvpMatrixLocation < 0)
+	{
+		Log::Error("GlProgram: mvp location not found in shader. Note: if it is not used, it was discarded by compiler");
+	}
+
+	Log::Info("mvp location: " + std::to_string(_mvpMatrixLocation));
 }
 

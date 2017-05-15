@@ -32,9 +32,13 @@ void SceneManager::LoadScene(const std::string& sceneName)
 		return;
 	}
 
-	UnloadCurrentScene();
+	auto newScene = DataParser::LoadScene(sceneName, _meshManager);
+	if (newScene)
+	{
+		UnloadCurrentScene();
 
-	_currentScene = DataParser::LoadScene(sceneName, _meshManager);
+		_currentScene = newScene;
+	}
 }
 
 void SceneManager::UnloadCurrentScene()

@@ -124,19 +124,6 @@ App::App()
 void App::InitInternal()
 {
 	InitManagers();
-
-	//auto c = Color::FromHexRGB("c41770");
-
-	//Mesh * m = new Mesh();
-	//m->AddVertex(glm::vec3(0.0f, 0.5f, 0.0f));
-	//m->AddVertex(glm::vec3(0.5f, -0.5f, 0.0f));
-	//m->AddVertex(glm::vec3(-0.5f, -0.5f, 0.0f));
-
-	//m->AddColor(Color::FromBytes(255).ToVector());
-	//m->AddColor(Color::FromBytes(0, 255).ToVector());
-	//m->AddColor(Color::FromBytes(0, 0, 255).ToVector());
-
-	//testRenderer = new GlMeshRenderer(*m, *(App::_materialManager->_defaultMaterial));
 }
 
 void App::InitManagers()
@@ -168,6 +155,8 @@ int App::Start()
 {
 	InitInternal();
 
+	//_renderer->Resize(500, 500);
+
 	System::OpenGlInfo();
 
 	System::LoadConfig();
@@ -179,7 +168,7 @@ int App::Start()
 
 	//Log::Info(string_format("Device context passed to App [%p]", (void*)_hdc));
 
-	//Resize(500, 500);
+	
 
 	using clock = std::chrono::high_resolution_clock;
 
@@ -212,6 +201,9 @@ int App::Start()
 		auto interpolated_state = interpolate(current_state, previous_state, alpha);
 
 		//render(interpolated_state);
+
+		//TODO(vlad): remove debug testing
+		_sceneManager->LoadScene("MainScene");
 
 		_renderer->Render();
 	}

@@ -125,6 +125,9 @@
     <ClInclude Include="GlMesh.h">
       <Filter>Header Files\GL</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -189,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="GlRender.cpp">
       <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

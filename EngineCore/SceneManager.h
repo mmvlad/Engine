@@ -21,6 +21,8 @@ public:
 	void LoadSceneList();
 	void LoadScene(const std::string & sceneName);
 
+	Scene* ActiveScene() const { return _currentScene; }
+
 private:
 	void UnloadCurrentScene();
 

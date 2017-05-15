@@ -1,6 +1,7 @@
-#include "GameObject.h"
+#include "GameObject.h" 
 
-
+#include <gtx/transform.hpp>
+#include <gtx/euler_angles.hpp>
 
 
 GameObject::GameObject(const std::string name, unsigned mesh, unsigned material):
@@ -14,4 +15,9 @@ GameObject::GameObject(const std::string name, unsigned mesh, unsigned material)
 GameObject::~GameObject()
 {
 
+}
+
+glm::mat4 GameObject::ModelMatrix() const
+{
+	return glm::translate(_position) * glm::eulerAngleXYZ(_rotation.x, _rotation.y, _rotation.z) * glm::scale(_scale);
 }

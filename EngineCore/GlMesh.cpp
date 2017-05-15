@@ -19,7 +19,10 @@ GlMesh::GlMesh(const Mesh& mesh)
 	GLWrap::VertexAttribPointer(VERTEX_POSITION_LOCATION, NumComponents::THREE, DataType::TYPE_FLOAT, false, 0, 0);
 	GLWrap::EnableVertexAttribPointer(VERTEX_POSITION_LOCATION);
 
-	//TODO(vlad): set index buffer
+	// Setup index buffer for vertices
+	GLWrap::GenBuffers(1, &_index_vbo);
+	GLWrap::BindBuffers(BufferType::INDEX_BUFFER, _index_vbo);
+	GLWrap::FillBufferWithData(BufferType::INDEX_BUFFER, mesh.Indices().size() * sizeof(GL_UNSIGNED_INT), &mesh.Indices().front(), UsageType::STATIC_DRAW);
 
 
 	//NOTE(vlad): Assume we always have vertex colors

@@ -21,6 +21,8 @@ public:
 
 	void Init(HDC * hdc, SceneManager * sceneManager);
 
+	void Resize(int witdth, int height);
+
 	void Render();
 
 	void RegisterMesh(const Mesh & mesh, unsigned int id);

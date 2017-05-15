@@ -5,6 +5,7 @@
 #include "ShaderManager.h"
 #include "GlProgram.h"
 #include <unordered_map>
+#include "glm.hpp"
 
 class GlMaterial
 {
@@ -16,7 +17,7 @@ public:
 	void Reload();
 
 	void Use() const { _program->Use(); }
-
+	void SetMvpMatrix(glm::mat4 mvp);
 
 private:
 	void Clear();
@@ -30,4 +31,5 @@ private:
 
 	const ShaderManager * const _shaderManager;
 };
+
 

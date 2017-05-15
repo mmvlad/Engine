@@ -68,19 +68,25 @@ Scene* DataParser::LoadScene(const std::string& sceneName, BaseMeshManager * mes
 
 		unsigned int meshId = meshManager->LoadMesh(meshName);
 
-		Log::Info("Obj name: " + objectName);
+		//TODO(vlad): set material id or name
+		unsigned int materialId = 1;
+
+		GameObject * gameObject = new GameObject(objectName, meshId, materialId);
+		gameObject->SetPosition(position);
+		gameObject->SetScale(scale);
+		gameObject->SetRotation(rotation);
+
+		scene->AddObject(gameObject);
+
+		/*Log::Info("Obj name: " + objectName);
 		Log::Info("Mesh name: " + meshName + ", handle [" + std::to_string(meshId) + "]");
 		Log::Info("Material name: " + materialName);
 
 		Log::Info("Position: [" + std::to_string(position.x) + ", " + std::to_string(position.y) + ", " + std::to_string(position.z) + "]");
 		Log::Info("Scale: [" + std::to_string(scale.x) + ", " + std::to_string(scale.y) + ", " + std::to_string(scale.z) + "]");
 		Log::Info("Rottion: [" + std::to_string(rotation.x) + ", " + std::to_string(rotation.y) + ", " + std::to_string(rotation.z) + "]");
-
-
-		//GameObject * gameObject = new GameObject();
-
-		//
-		//gameObject->SetName(objectName);
+	
+		*/
 	}
 
 	return scene;

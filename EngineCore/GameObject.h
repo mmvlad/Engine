@@ -21,9 +21,11 @@ public:
 	const glm::vec3 &	Scale()			const { return _scale; }
 	const glm::vec3 &	Rotation()		const { return _rotation; }
 
-	void SetPosition(const glm::vec3 position)	{ _position = position; }
-	void SetScale	(const glm::vec3 scale)		{ _scale	= scale; }
-	void SetRotation(const glm::vec3 rotation)	{ _rotation = rotation; }
+	void SetPosition(glm::vec3 position)	{ _position = position; }
+	void SetScale	(glm::vec3 scale)		{ _scale	= scale; }
+	void SetRotation(glm::vec3 rotation)	{ _rotation = rotation; }
+
+	glm::mat4 ModelMatrix() const;
 
 private:
 	DISALLOW_COPY_AND_ASSIGN(GameObject);

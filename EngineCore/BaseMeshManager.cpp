@@ -32,7 +32,7 @@ unsigned BaseMeshManager::LoadMesh(const std::string meshName)
 {
 	if (_names.find(meshName) != _names.end())
 	{
-		Log::Info("Mesh manager: mesh already exists [" + meshName + "]");
+		//Log::Info("Mesh manager: mesh already exists [" + meshName + "]");
 		return _names[meshName];
 	}
 
@@ -71,12 +71,31 @@ unsigned BaseMeshManager::LoadMesh(const std::string meshName)
 		return 0;
 	}
 
-	assert(attributes.vertices.size() % 3 == 0, "Element count must be %3 as these are vec3");
+	/*Mesh * mesh = new Mesh();
+	mesh->AddVertex(glm::vec3(-0.5f, 0.5f, 0.0f));
+	mesh->AddVertex(glm::vec3(0.5f, 0.5f, 0.0f));
+	mesh->AddVertex(glm::vec3(0.5f, -0.5f, 0.0f));
+	mesh->AddVertex(glm::vec3(-0.5f, -0.5f, 0.0f));
 
+	mesh->AddIndex(0);
+	mesh->AddIndex(1);
+	mesh->AddIndex(2);
+	mesh->AddIndex(0);
+	mesh->AddIndex(2);
+	mesh->AddIndex(3);
+
+	mesh->AddColor(Color::FromBytes(255).ToVector());
+	mesh->AddColor(Color::FromBytes(0, 255).ToVector());
+	mesh->AddColor(Color::FromBytes(0, 0, 255).ToVector());
+	mesh->AddColor(Color::FromBytes(0, 0, 255).ToVector());
+*/
+	
 	Mesh * mesh = new Mesh();
 	Log::Info("Loaded " + std::to_string(attributes.vertices.size()) + " vertices from model");
 
 	int verticesElemCount = attributes.vertices.size() / 3;
+
+	assert(shapes[0].mesh.indices.size() % 3 == 0, "Model index count must be %3 as these are triangles");
 
 	for (int i = 0; i < verticesElemCount; ++i)
 	{
@@ -85,7 +104,7 @@ unsigned BaseMeshManager::LoadMesh(const std::string meshName)
 		float z = attributes.vertices[i * 3 + 2];
 
 		mesh->AddVertex(glm::vec3(x, y, z));
-		mesh->AddColor(Color::FromHexRGB("2870e2").ToVector()); //TODO(vlad): use vertex colors
+		mesh->AddColor(Color::FromBytes(30*i, 0, 0).ToVector()); //TODO(vlad): use vertex colors
 	}
 
 	for(int i = 0; i < shapes[0].mesh.indices.size(); ++i)
@@ -94,14 +113,10 @@ unsigned BaseMeshManager::LoadMesh(const std::string meshName)
 	}
 
 	_meshes[_nextMeshIndex] = mesh;
-	_names[meshName] = _nextMeshIndex;
+	_names[meshName]		= _nextMeshIndex;
 
 	// Add to renderer
 	_renderer->RegisterMesh((*mesh), _nextMeshIndex);
 
-	//TODO(vlad): check, return _nextMeshIndex++ should wokr
-	unsigned int res = _nextMeshIndex;
-	_nextMeshIndex++;
-
-	return res;
+	return (_nextMeshIndex++);
 }

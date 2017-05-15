@@ -4,7 +4,7 @@
 Scene::Scene(const std::string name):
 	_name(name)
 {
-
+	_defaultCamera = new Camera();
 }
 
 Scene::~Scene()

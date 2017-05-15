@@ -3,7 +3,7 @@
 #include "GlProgram.h"
 #include "Logger.h"
 #include "GLWrap.h"
-
+#include <gtc/type_ptr.hpp>
 
 GlMaterial::GlMaterial(const ShaderManager * const shaderManager, const std::string & shaderName) :
 	_shaderName		(shaderName),
@@ -47,4 +47,9 @@ void GlMaterial::Load()
 
 
 	//TODO(vlad): detach/delete shaders here
+}
+
+void GlMaterial::SetMvpMatrix(glm::mat4 mvp)
+{
+	glUniformMatrix4fv(_program->MvpMatrixLocation(), 1, GL_FALSE, glm::value_ptr(mvp));
 }
