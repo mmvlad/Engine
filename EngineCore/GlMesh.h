@@ -22,5 +22,6 @@ private:
 	//NOTE(vlad): Don't actually need these
 	unsigned int	_vertex_vbo;
 	unsigned int	_colors_vbo;
+	unsigned int	_indexBuffer;
 };
 

@@ -24,13 +24,14 @@ void GlRender::Init(HDC* hdc, SceneManager * sceneManager)
 	_hdc			= hdc;
 	_sceneManager	= sceneManager;
 
+	//NOTE(vlad): First - load extensions, THEN -> shader manager etc as they depend on them
+	GLWrap::LoadExtensions();
+
 	_shaderManager = new ShaderManager();
 	_shaderManager->Init();
 
 	_materialManager = new MaterialManager();
 	_materialManager->Init(_shaderManager);
-
-	GLWrap::LoadExtensions();
 }
 
 void GlRender::Render()

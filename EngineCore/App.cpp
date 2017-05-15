@@ -141,14 +141,15 @@ void App::InitInternal()
 
 void App::InitManagers()
 {
-	_sceneManager = new SceneManager();
-	_sceneManager->Init();
+	_sceneManager	= new SceneManager();
+	_renderer		= new GlRender();
+	_meshManager	= new BaseMeshManager();
 
-	_renderer = new GlRender();
 	_renderer->Init(_hdc, _sceneManager);
+	_sceneManager->Init(_meshManager);
+	_meshManager->Init(_renderer);
 
-	_meshManager = new BaseMeshManager();
-
+	_sceneManager->LoadSceneList();
 }
 
 

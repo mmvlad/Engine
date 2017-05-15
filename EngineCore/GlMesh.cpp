@@ -5,7 +5,7 @@
 
 GlMesh::GlMesh(const Mesh& mesh)
 {
-	_vertexCount = mesh.Vertices().size();
+	_vertexCount = mesh.Indices().size();
 
 	GLWrap::GenVertexArrays(1, &_vao);
 	GLWrap::BindVertexArray(_vao);
@@ -18,6 +18,8 @@ GlMesh::GlMesh(const Mesh& mesh)
 	// Setup position attribute
 	GLWrap::VertexAttribPointer(VERTEX_POSITION_LOCATION, NumComponents::THREE, DataType::TYPE_FLOAT, false, 0, 0);
 	GLWrap::EnableVertexAttribPointer(VERTEX_POSITION_LOCATION);
+
+	//TODO(vlad): set index buffer
 
 
 	//NOTE(vlad): Assume we always have vertex colors

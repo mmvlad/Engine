@@ -5,9 +5,10 @@
 #include <unordered_map>
 #include "GlMesh.h"
 #include <Windows.h>
-#include "SceneManager.h"
 #include "ShaderManager.h"
 #include "MaterialManager.h"
+
+class SceneManager;
 
 class GlRender final
 {

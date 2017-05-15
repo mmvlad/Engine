@@ -1,11 +1,12 @@
 #include "BaseMeshManager.h"
 
-//#define TINYOBJLOADER_IMPLEMENTATION
+#define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
 #include "FileUtils.h"
 #include "Config.h"
 #include "Logger.h"
+#include "Color.h"
 
 BaseMeshManager::BaseMeshManager():
 	_nextMeshIndex(1)
@@ -64,8 +65,33 @@ unsigned BaseMeshManager::LoadMesh(const std::string meshName)
 		return 0;
 	}
 
+	if (shapes.size() == 0)
+	{
+		Log::Error("MeshManager: failed to load shape from .obj");
+		return 0;
+	}
+
+	assert(attributes.vertices.size() % 3 == 0, "Element count must be %3 as these are vec3");
+
 	Mesh * mesh = new Mesh();
 	Log::Info("Loaded " + std::to_string(attributes.vertices.size()) + " vertices from model");
+
+	int verticesElemCount = attributes.vertices.size() / 3;
+
+	for (int i = 0; i < verticesElemCount; ++i)
+	{
+		float x = attributes.vertices[i * 3 + 0];
+		float y = attributes.vertices[i * 3 + 1];
+		float z = attributes.vertices[i * 3 + 2];
+
+		mesh->AddVertex(glm::vec3(x, y, z));
+		mesh->AddColor(Color::FromHexRGB("2870e2").ToVector()); //TODO(vlad): use vertex colors
+	}
+
+	for(int i = 0; i < shapes[0].mesh.indices.size(); ++i)
+	{
+		mesh->AddIndex(shapes[0].mesh.indices[i].vertex_index);
+	}
 
 	_meshes[_nextMeshIndex] = mesh;
 	_names[meshName] = _nextMeshIndex;

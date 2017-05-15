@@ -5,19 +5,19 @@
 #include <vector>
 #include <string>
 #include "Logger.h"
-//#include "Scene.h"
+
 
 class Scene;
+class BaseMeshManager;
 
-class SceneManager
+class SceneManager final
 {
-private:
-	APP_MANAGER(SceneManager);
-
 public:
+	SceneManager();
+
 	virtual ~SceneManager();
 
-	void Init();
+	void Init(BaseMeshManager * meshManager);
 	void LoadSceneList();
 	void LoadScene(const std::string & sceneName);
 
@@ -25,7 +25,8 @@ private:
 	void UnloadCurrentScene();
 
 private:
-	std::vector<std::string> _sceneList;
-	Scene * _currentScene;
+	std::vector<std::string>	  _sceneList;
+	Scene						* _currentScene;
+	BaseMeshManager				* _meshManager;
 };
 

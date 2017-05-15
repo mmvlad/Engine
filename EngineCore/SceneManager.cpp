@@ -14,10 +14,9 @@ SceneManager::~SceneManager()
 	UnloadCurrentScene();
 }
 
-void SceneManager::Init()
+void SceneManager::Init(BaseMeshManager * meshManager)
 {
-	LoadSceneList();
-
+	_meshManager = meshManager;
 }
 
 void SceneManager::LoadSceneList()
@@ -35,7 +34,7 @@ void SceneManager::LoadScene(const std::string& sceneName)
 
 	UnloadCurrentScene();
 
-	_currentScene = DataParser::LoadScene(sceneName);
+	_currentScene = DataParser::LoadScene(sceneName, _meshManager);
 }
 
 void SceneManager::UnloadCurrentScene()

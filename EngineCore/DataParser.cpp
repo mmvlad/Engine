@@ -3,6 +3,8 @@
 #include "json.hpp"
 #include "Logger.h"
 #include "FileUtils.h"
+#include "BaseMeshManager.h"
+#include "glm.hpp"
 
 using json = nlohmann::json;
 
@@ -32,7 +34,7 @@ std::vector<std::string> DataParser::GetSceneList()
 	return sceneList;
 }
 
-Scene* DataParser::LoadScene(const std::string& sceneName)
+Scene* DataParser::LoadScene(const std::string& sceneName, BaseMeshManager * meshManager)
 {
 	auto scenesDir = FileUtils::CombinePath(PROJECT_DATA_DIR, SCENES_DIR);
 	auto scenePath = FileUtils::CombinePath(scenesDir, sceneName + ".json"); //TODO(vlad): move extension from here
@@ -52,22 +54,33 @@ Scene* DataParser::LoadScene(const std::string& sceneName)
 	auto objects = jsonScene["objects"];
 	for(auto object: objects)
 	{
-		//TODO(vlad): implement parsing gameobject with transform from scene file
+		auto objectName		= object["name"].get<std::string>();
+		auto meshName		= object["mesh"].get<std::string>();
+		auto materialName	= object["material"].get<std::string>();
+
+		auto positionStr	= object["position"].get<std::string>();
+		auto scaleStr		= object["scale"].get<std::string>();
+		auto rotationStr	= object["rotation"].get<std::string>();
+
+		glm::vec3 position	= Utils::VectorFromString(positionStr);
+		glm::vec3 scale		= Utils::VectorFromString(scaleStr);
+		glm::vec3 rotation	= Utils::VectorFromString(rotationStr);
+
+		unsigned int meshId = meshManager->LoadMesh(meshName);
+
+		Log::Info("Obj name: " + objectName);
+		Log::Info("Mesh name: " + meshName + ", handle [" + std::to_string(meshId) + "]");
+		Log::Info("Material name: " + materialName);
+
+		Log::Info("Position: [" + std::to_string(position.x) + ", " + std::to_string(position.y) + ", " + std::to_string(position.z) + "]");
+		Log::Info("Scale: [" + std::to_string(scale.x) + ", " + std::to_string(scale.y) + ", " + std::to_string(scale.z) + "]");
+		Log::Info("Rottion: [" + std::to_string(rotation.x) + ", " + std::to_string(rotation.y) + ", " + std::to_string(rotation.z) + "]");
+
 
 		//GameObject * gameObject = new GameObject();
 
-		//auto objectName = object["name"].get<std::string>();
+		//
 		//gameObject->SetName(objectName);
-
-		//auto components = object["components"];
-		//for(auto component: components)
-		//{
-		//	auto type = component["componentName"];
-		//	if (type == "MeshRenderer")
-		//	{
-		//		// handle mesh renderer
-		//	}
-		//}
 	}
 
 	return scene;
