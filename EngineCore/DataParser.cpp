@@ -71,10 +71,19 @@ Scene* DataParser::LoadScene(const std::string& sceneName, BaseMeshManager * mes
 		//TODO(vlad): set material id or name
 		unsigned int materialId = 1;
 
+		std::vector<std::string> scripts;
+
+		auto scriptsArr = object["scripts"];
+		for(auto& scriptNameStr: scriptsArr)
+		{
+			scripts.push_back(scriptNameStr.get<std::string>());
+		}
+
 		GameObject * gameObject = new GameObject(objectName, meshId, materialId);
 		gameObject->SetPosition(position);
 		gameObject->SetScale(scale);
 		gameObject->SetRotation(rotation);
+		gameObject->SetScripts(scripts);
 
 		scene->AddObject(gameObject);
 

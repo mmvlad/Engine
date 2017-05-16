@@ -3,10 +3,10 @@
 #include "Logger.h"
 #include <glm.hpp>
 #include "GLWrap.h"
-#include "GlUtils.h"
 #include "System.h"
-#include "GlMaterial.h"
-
+#include "LuaBinding.h"
+#include "Camera.h"
+#include "Scene.h"
 
 #pragma comment (lib, "opengl32.lib")
 
@@ -124,6 +124,8 @@ App::App()
 void App::InitInternal()
 {
 	InitManagers();
+
+	LuaBinding::Init();
 }
 
 void App::InitManagers()
@@ -148,7 +150,7 @@ App::~App()
 
 
 
-#include <experimental/filesystem>
+
 
 
 int App::Start()
@@ -163,7 +165,7 @@ int App::Start()
 
 	_sceneManager->LoadScene("MainScene");
 
-	/*std::string path = std::experimental::filesystem::current_path().string();
+	/*
 	Log::Info("Current path: " + path);*/
 
 	//Log::Info(string_format("Device context passed to App [%p]", (void*)_hdc));
@@ -204,6 +206,16 @@ int App::Start()
 
 		//TODO(vlad): remove debug testing
 		_sceneManager->LoadScene("MainScene");
+
+		//execute scripts
+		Scene * scene = _sceneManager->ActiveScene();
+		Camera camera = scene->DefaultCamera();
+
+		// Draw all objects from scene manager
+		for (auto& gameObject : scene->GetObjects())
+		{
+			LuaBinding::ExecuteScripts(gameObject);
+		}
 
 		_renderer->Render();
 	}

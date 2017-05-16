@@ -25,6 +25,10 @@ public:
 	void SetScale	(glm::vec3 scale)		{ _scale	= scale; }
 	void SetRotation(glm::vec3 rotation)	{ _rotation = rotation; }
 
+	void SetScripts(std::vector<std::string> list)			{ _scriptList = list; }
+	void AddScript(std::string scriptName)					{ _scriptList.push_back(scriptName); }
+	const std::vector<std::string> & GetScriptList() const	{ return _scriptList; }
+
 	glm::mat4 ModelMatrix() const;
 
 private:
@@ -38,5 +42,7 @@ private:
 	glm::vec3 _position;
 	glm::vec3 _scale;
 	glm::vec3 _rotation;
+
+	std::vector<std::string> _scriptList;
 };
 

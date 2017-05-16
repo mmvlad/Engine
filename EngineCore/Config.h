@@ -15,4 +15,4 @@ const std::string PROJECT_DATA_DIR		= "ProjectData";
 const std::string SCENE_LIST_FILENAME	= "SceneList.json";
 const std::string MODELS_DIR			= "Models";
 const std::string SCENES_DIR			= "Scenes";
-
+const std::string SCRIPTS_DIR			= "Scripts";
