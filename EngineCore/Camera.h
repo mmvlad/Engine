@@ -18,7 +18,15 @@ public:
 	glm::mat4 ProjectionMatrix() const { return glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f); }
 
 private:
+	void RecalculateData(); //NOTE(vlad): recalcluate cached data when one of parameters change
+
+private:
 	glm::vec3 _position;
 	glm::vec3 _lookAt;
+
+	float _fieldOfViewDegrees = 45;
+	float _screenRatio = 4.0f / 3.0f;//TODO(vlad): claculate based on set in preferences prefered resolution
+	float _nearPlane = 0.1f;
+	float _farPlane = 100.0f;
 };
 
