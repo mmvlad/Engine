@@ -1,7 +1,18 @@
 #include "ContextCreator.h"
-#include "WindowUtils.h"
 #include "Logger.h"
 
+
+
+//void ErrorDialog(const char* errorMsg)
+//{
+//	MessageBoxA(NULL, errorMsg, "ERROR", NULL);
+//}
+//
+//void InfoDialog(const char* errorMsg)
+//{
+//	MessageBoxA(NULL, errorMsg, "INFO", NULL);
+//}
+//
 
 void Win32SetPixelFormat(HDC WindowDC);
 void LoadWglExtensions();

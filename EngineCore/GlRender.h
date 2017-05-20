@@ -19,7 +19,7 @@ public:
 	
 public:
 
-	void Init(HDC * hdc, SceneManager * sceneManager);
+	void Init(HDC hdc, SceneManager * sceneManager);
 
 	void Resize(int witdth, int height);
 
@@ -33,7 +33,7 @@ private:
 
 private:
 	std::unordered_map<unsigned int, GlMesh*>	  _meshes;
-	HDC											* _hdc;
+	HDC											  _hdc;
 	SceneManager								* _sceneManager;
 	ShaderManager								* _shaderManager;
 	MaterialManager								* _materialManager;

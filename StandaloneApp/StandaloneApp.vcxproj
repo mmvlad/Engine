@@ -149,7 +149,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ContextCreator.cpp" />
     <ClCompile Include="EventLoop.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="StandaloneMain.cpp" />
@@ -157,7 +156,6 @@
     <ClCompile Include="WndProcHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ContextCreator.h" />
     <ClInclude Include="EventLoop.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="WindowUtils.h" />

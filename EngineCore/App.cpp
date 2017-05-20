@@ -7,10 +7,17 @@
 #include "LuaBinding.h"
 #include "Camera.h"
 #include "Scene.h"
+//
+//void Msg(const char* msg)
+//{
+//	MessageBoxA(NULL, msg, "Info", NULL);
+//}
+
 
 #pragma comment (lib, "opengl32.lib")
 
-HDC				* App::_hdc				= nullptr;
+HWND			  App::_hwnd;
+HDC				  App::_hdc				= nullptr;
 SceneManager	* App::_sceneManager	= nullptr;
 GlRender		* App::_renderer		= nullptr;
 BaseMeshManager * App::_meshManager		= nullptr;
@@ -123,6 +130,8 @@ App::App()
 
 void App::InitInternal()
 {
+	_hdc = GetDC(_hwnd);
+
 	InitManagers();
 
 	LuaBinding::Init();
@@ -134,11 +143,44 @@ void App::InitManagers()
 	_renderer		= new GlRender();
 	_meshManager	= new BaseMeshManager();
 
+	//Msg("Managers created");
+
+	//std::stringstream ss;
+	//ss << "HDC address: " << _hdc;
+
+	//Msg(ss.str().c_str());
+
 	_renderer->Init(_hdc, _sceneManager);
+
+	
+
+	//Msg("Managers inited");
+
 	_sceneManager->Init(_meshManager);
 	_meshManager->Init(_renderer);
 
+	
+
 	_sceneManager->LoadSceneList();
+}
+
+void App::Render()
+{
+	//TODO(vlad): remove debug testing
+	_sceneManager->LoadScene("MainScene");
+
+	//execute scripts
+	Scene * scene = _sceneManager->ActiveScene();
+	Camera camera = scene->DefaultCamera();
+
+	// Draw all objects from scene manager
+	for (auto& gameObject : scene->GetObjects())
+	{
+		LuaBinding::ExecuteScripts(gameObject);
+	}
+
+	_renderer->Render();
+
 }
 
 
@@ -152,16 +194,21 @@ App::~App()
 
 
 
-
 int App::Start()
 {
 	InitInternal();
+
+	//Msg("Internal init ok");
 
 	//_renderer->Resize(500, 500);
 
 	System::OpenGlInfo();
 
+	//Msg("Opengl info retreived");
+
 	System::LoadConfig();
+
+	//Msg("Config loaded");
 
 	_sceneManager->LoadScene("MainScene");
 
@@ -204,20 +251,9 @@ int App::Start()
 
 		//render(interpolated_state);
 
-		//TODO(vlad): remove debug testing
-		_sceneManager->LoadScene("MainScene");
+		Render();
 
-		//execute scripts
-		Scene * scene = _sceneManager->ActiveScene();
-		Camera camera = scene->DefaultCamera();
-
-		// Draw all objects from scene manager
-		for (auto& gameObject : scene->GetObjects())
-		{
-			LuaBinding::ExecuteScripts(gameObject);
-		}
-
-		_renderer->Render();
+		//break;
 	}
 
 	return 0;

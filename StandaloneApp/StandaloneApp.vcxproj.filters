@@ -17,9 +17,6 @@
     <ClCompile Include="WndProcHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ContextCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WindowUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -32,9 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WndProcHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ContextCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindowUtils.h">

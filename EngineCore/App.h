@@ -16,17 +16,20 @@ public:
 	~App();
 
 	static ENGINECORE_API int Start();
-	static ENGINECORE_API void Init(HDC* hdc)	{ _hdc = hdc; }
+	static ENGINECORE_API void Init(HWND hwnd)	{ _hwnd = hwnd; }
+
+	static void Render();
 
 private:
 	App();
 
 	static void InitInternal();
 	static void InitManagers();
+	
 
 private:
-	//NOTE(vlad): HDC is not used for now
-	static HDC				* _hdc;
+	static HWND				  _hwnd;
+	static HDC				  _hdc;
 	static SceneManager		* _sceneManager;
 	static GlRender			* _renderer;
 	static BaseMeshManager	* _meshManager;

@@ -4,6 +4,13 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "glm.hpp"
+#include "ContextCreator.h"
+
+//void Msgg(const char* msg)
+//{
+//	MessageBoxA(NULL, msg, "Info", NULL);
+//}
+
 
 GlRender::GlRender()
 {
@@ -21,10 +28,32 @@ GlRender::~GlRender()
 	}
 }
 
-void GlRender::Init(HDC* hdc, SceneManager * sceneManager)
+void CheckSize(HDC hdc)
+{
+	RECT    rcCli;
+	GetClientRect(WindowFromDC(hdc), &rcCli);
+	// then you might have: 
+	auto nWidth = rcCli.right - rcCli.left;
+	auto nHeight = rcCli.bottom - rcCli.top;
+
+	Log::Info("Width: " + std::to_string(nWidth) + ", height: " + std::to_string(nHeight));
+}
+
+void GlRender::Init(HDC hdc, SceneManager * sceneManager)
 {
 	_hdc			= hdc;
 	_sceneManager	= sceneManager;
+	CheckSize(hdc);
+
+	//SetWindowPos(WindowFromDC(hdc), 0, 0, 0, 300, 300, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+	//CheckSize(hdc);
+
+	HGLRC GlobalOpenGlRenderContext = Win32InitOpenGL(hdc);
+
+	
+	//std::stringstream ss;
+	//ss << "Opengl context: " << GlobalOpenGlRenderContext;
+	//Msgg(ss.str().c_str());
 
 	//NOTE(vlad): First - load extensions, THEN -> shader manager etc as they depend on them
 	GLWrap::LoadExtensions();
@@ -87,7 +116,7 @@ void GlRender::Render()
 	}
 
 
-	SwapBuffers(*_hdc);
+	SwapBuffers(_hdc);
 }
 
 

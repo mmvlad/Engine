@@ -43,7 +43,7 @@ void SetConsole()
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
-	GlobalHandleInstance = hInstance;
+	HINSTANCE GlobalHandleInstance = hInstance;
 
 #if _DEBUG
 
@@ -85,18 +85,21 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 		{
 			//MakeFullScreen(Window);
 
-			MainWindow = Window;
-			GlobalDeviceContext = GetDC(Window);
-			GlobalOpenGlRenderContext = Win32InitOpenGL(GlobalDeviceContext);
-
-			//Log::Info(string_format("Device context [%p]", (void*)&GlobalDeviceContext));
-
-			//ReleaseDC(MainWindow, GlobalDeviceContext);
+			HWND MainWindow = Window;
 			ShowWindow(Window, nCmdShow);
+
+			//HDC deviceContext = GetDC(Window);
+
+			App::Init(Window);
+			App::Start();
+
+			return 0;
+
+			//GlobalOpenGlRenderContext = Win32InitOpenGL(GlobalDeviceContext);
+			//Log::Info(string_format("Device context [%p]", (void*)&GlobalDeviceContext));
+			//ReleaseDC(MainWindow, GlobalDeviceContext);
 		}
 	}
 
-	App::Init(&GlobalDeviceContext);
-
-	return App::Start();
+	return -1;
 }

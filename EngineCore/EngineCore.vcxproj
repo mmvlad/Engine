@@ -24,9 +24,11 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="ContextCreator.h" />
     <ClInclude Include="DataParser.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="ExportFunctions.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlConfig.h" />
@@ -57,7 +59,9 @@
     <ClCompile Include="BaseMeshManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="ContextCreator.cpp" />
     <ClCompile Include="DataParser.cpp" />
+    <ClCompile Include="ExportFunctions.cpp" />
     <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlMaterial.cpp" />
@@ -149,6 +153,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;GLEW_BUILD;ENGINE_CORE_EXPORTS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\SeleneLua\include;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\Lua5.3.3\include;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\objParser;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\Json;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\glm-0.9.8.4;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +161,12 @@
       <AdditionalLibraryDirectories>C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\Lua5.3.3;C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\libs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>echo "Deleting old dll"
+del "C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\EditorApp\bin\Debug\EngineCore.dll"
+echo "Copying new dll"
+copy "C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\Debug\EngineCore.dll" "C:\Users\webmo\Google Drive\Projects\VisualStudio\EngineCore\EditorApp\bin\Debug\EngineCore.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
