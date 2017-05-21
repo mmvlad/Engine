@@ -8,6 +8,7 @@
 #include "SceneManager.h"
 #include "GlRender.h"
 #include "BaseMeshManager.h"
+#include "LuaBinding.h"
 
 
 class App
@@ -16,9 +17,16 @@ public:
 	~App();
 
 	static ENGINECORE_API int Start();
-	static ENGINECORE_API void Init(HWND hwnd)	{ _hwnd = hwnd; }
+	static ENGINECORE_API void Init(HWND hwnd);
 
 	static void Render();
+	static void ExecuteLogic();
+
+	//TODO(vlad): move this to external functions
+public:
+	//TODO(vlad): used to reload scripts when game is in GAME mode, not editor
+	//static void ScheduleReload() { _reloadrRequired = true; }
+	static void ReloadScene();
 
 private:
 	App();
@@ -33,5 +41,7 @@ private:
 	static SceneManager		* _sceneManager;
 	static GlRender			* _renderer;
 	static BaseMeshManager	* _meshManager;
+
+	static bool				  _reloadrRequired;
 };
 

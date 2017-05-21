@@ -17,7 +17,7 @@ LRESULT CALLBACK MainWindowCallback(HWND hWnd, UINT message, WPARAM wParam, LPAR
 
 	} break;
 	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
+		//hdc = BeginPaint(hWnd, &ps);
 
 		// Here your application is laid out.  
 		// For this introduction, we just print out "Hello, World!"  
@@ -26,8 +26,8 @@ LRESULT CALLBACK MainWindowCallback(HWND hWnd, UINT message, WPARAM wParam, LPAR
 
 		// End application-specific layout section.  
 
-		EndPaint(hWnd, &ps);
-
+		//EndPaint(hWnd, &ps);
+		return DefWindowProcA(hWnd, message, wParam, lParam);
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);

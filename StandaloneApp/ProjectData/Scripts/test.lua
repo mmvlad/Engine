@@ -6,6 +6,8 @@ posX 	= 0
 posZ 	= 0
 
 function update( )
+	--do return end
+
 	--log("hello bitch")
 	posY = posY + delta
 
@@ -18,3 +20,6 @@ function update( )
 	posZ = math.sin(counter) + 0.5
 
 end
+
+
+

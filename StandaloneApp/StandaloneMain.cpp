@@ -45,11 +45,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 {
 	HINSTANCE GlobalHandleInstance = hInstance;
 
-#if _DEBUG
+//#if _DEBUG
 
 	SetConsole();
 
-#endif
+//#endif
 	
 	WNDCLASSA WindowClass = {};
 	WindowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -88,16 +88,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE hPrevInstance, _In_ 
 			HWND MainWindow = Window;
 			ShowWindow(Window, nCmdShow);
 
-			//HDC deviceContext = GetDC(Window);
-
 			App::Init(Window);
-			App::Start();
 
-			return 0;
-
-			//GlobalOpenGlRenderContext = Win32InitOpenGL(GlobalDeviceContext);
-			//Log::Info(string_format("Device context [%p]", (void*)&GlobalDeviceContext));
-			//ReleaseDC(MainWindow, GlobalDeviceContext);
+			return App::Start();
 		}
 	}
 

@@ -16,8 +16,22 @@ void Render()
 	App::Render();
 }
 
+void Tick()
+{
+	App::ExecuteLogic();
+}
+
+void ReloadScene()
+{
+	App::ReloadScene();
+}
+
+void ReloadScripts()
+{
+	LuaBinding::ReloadScripts();
+}
+
 void Resize(int width, int height)
 {
-
 	glViewport(0, 0, width, height);
 }

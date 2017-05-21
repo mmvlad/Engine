@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "OpenGLControl";
-            this.Size = new System.Drawing.Size(743, 409);
+            this.Size = new System.Drawing.Size(399, 409);
             this.Load += new System.EventHandler(this.OpenGLControl_Load);
             this.ResumeLayout(false);
 

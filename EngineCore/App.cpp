@@ -21,7 +21,7 @@ HDC				  App::_hdc				= nullptr;
 SceneManager	* App::_sceneManager	= nullptr;
 GlRender		* App::_renderer		= nullptr;
 BaseMeshManager * App::_meshManager		= nullptr;
-
+bool			  App::_reloadrRequired = false;
 
 
 
@@ -123,10 +123,25 @@ game_state interpolate(game_state const & current, game_state const & previous, 
 }
 
 
+void App::ReloadScene()
+{
+	_sceneManager->LoadScene("MainScene");
+	Log::Info("Scene reloaded");
+}
+
 App::App()
 {
 
 }
+
+void App::Init(HWND hwnd)
+{
+	_hwnd = hwnd;
+
+	InitInternal();
+}
+
+
 
 void App::InitInternal()
 {
@@ -134,7 +149,15 @@ void App::InitInternal()
 
 	InitManagers();
 
+	// Loads lua scripts
 	LuaBinding::Init();
+
+	System::OpenGlInfo();
+
+	System::LoadConfig();
+
+	//TODO(vlad): move thid away from here
+	ReloadScene();
 }
 
 void App::InitManagers()
@@ -143,33 +166,21 @@ void App::InitManagers()
 	_renderer		= new GlRender();
 	_meshManager	= new BaseMeshManager();
 
-	//Msg("Managers created");
-
-	//std::stringstream ss;
-	//ss << "HDC address: " << _hdc;
-
-	//Msg(ss.str().c_str());
-
 	_renderer->Init(_hdc, _sceneManager);
-
-	
-
-	//Msg("Managers inited");
-
 	_sceneManager->Init(_meshManager);
 	_meshManager->Init(_renderer);
-
-	
 
 	_sceneManager->LoadSceneList();
 }
 
 void App::Render()
 {
-	//TODO(vlad): remove debug testing
-	_sceneManager->LoadScene("MainScene");
+	_renderer->Render();
+}
 
-	//execute scripts
+void App::ExecuteLogic()
+{
+	// Execute scripts
 	Scene * scene = _sceneManager->ActiveScene();
 	Camera camera = scene->DefaultCamera();
 
@@ -178,47 +189,17 @@ void App::Render()
 	{
 		LuaBinding::ExecuteScripts(gameObject);
 	}
-
-	_renderer->Render();
-
 }
 
 
 App::~App()
 {
+	ReleaseDC(_hwnd, _hdc);
 }
-
-
-
-
-
 
 
 int App::Start()
 {
-	InitInternal();
-
-	//Msg("Internal init ok");
-
-	//_renderer->Resize(500, 500);
-
-	System::OpenGlInfo();
-
-	//Msg("Opengl info retreived");
-
-	System::LoadConfig();
-
-	//Msg("Config loaded");
-
-	_sceneManager->LoadScene("MainScene");
-
-	/*
-	Log::Info("Current path: " + path);*/
-
-	//Log::Info(string_format("Device context passed to App [%p]", (void*)_hdc));
-
-	
-
 	using clock = std::chrono::high_resolution_clock;
 
 	std::chrono::nanoseconds lag(0ns);
@@ -231,6 +212,14 @@ int App::Start()
 	Log::Info("Game loop started");
 
 	while (!quit_game) {
+
+		if (_reloadrRequired)
+		{
+			_reloadrRequired = false;
+
+			ReloadScene();
+		}
+
 		auto delta_time = clock::now() - time_start;
 		time_start = clock::now();
 		lag += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
@@ -243,6 +232,8 @@ int App::Start()
 
 			previous_state = current_state;
 			update(&current_state); // update at a fixed rate each time
+
+			ExecuteLogic();
 		}
 
 		// calculate how close or far we are from the next timestep
