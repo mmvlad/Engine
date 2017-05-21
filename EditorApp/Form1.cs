@@ -34,17 +34,24 @@ namespace EditorApp
         [DllImport("EngineCore.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void Resize(int width, int height);
 
-        public Form1()
+        [DllImport("EngineCore.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetProjectDir(string dir);
+
+        private string _projectdir;
+
+        public Form1(string projectDir)
         {
+            _projectdir = projectDir;
+
             InitializeComponent();
 
+            SetProjectDir(projectDir);
             Init(openGLControl1.Handle);
 
             openGLControl1.PaintAction += PaintAction;
-            //openGLControl1.SizeChangedAction += ResizeAction;
+            openGLControl1.SizeChangedAction += ResizeAction;
 
             InitWatcher();
-
         }
 
         private void PaintAction()
@@ -68,7 +75,7 @@ namespace EditorApp
         private void InitWatcher()
         {
             watcher = new FileSystemWatcher();
-            watcher.Path = "ProjectData\\Scripts";
+            watcher.Path = _projectdir + "\\ProjectData\\Scripts";
             /* Watch for changes in LastAccess and LastWrite times, and
                the renaming of files or directories. */
             watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;

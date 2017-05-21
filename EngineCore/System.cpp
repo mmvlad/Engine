@@ -4,12 +4,14 @@
 #include "FileUtils.h"
 #include "json.hpp"
 
-EngineConfig System::_config = {};
-
 using json = nlohmann::json;
+
+EngineConfig	System::_config		= {};
+std::string		System::_projectDir;
 
 System::System()
 {
+	
 }
 
 
@@ -21,7 +23,7 @@ void System::OpenGlInfo()
 
 void System::LoadConfig()
 {
-	auto path = FileUtils::CombinePath(CONFIG_DIR, CONFIG_FILENAME);
+	auto path = FileUtils::CombinePath(System::GetConfigDir(), CONFIG_FILENAME);
 	if (!FileUtils::FileExists(path))
 	{
 		Log::Error("Config file not found");
@@ -33,6 +35,15 @@ void System::LoadConfig()
 	_config = EngineConfig::FromJson(jsonStr);
 
 	Log::Info("Config: " + _config.ToString());
+}
+
+void System::SetDefaultProjectDir()
+{
+	if (_projectDir == "")
+	{
+		// Default project dir: where process is
+		System::SetProjectDir(FileUtils::GetCurrentDir());
+	}
 }
 
 System::~System()

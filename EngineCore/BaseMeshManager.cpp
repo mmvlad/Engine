@@ -7,6 +7,7 @@
 #include "Config.h"
 #include "Logger.h"
 #include "Color.h"
+#include "System.h"
 
 BaseMeshManager::BaseMeshManager():
 	_nextMeshIndex(1)
@@ -36,7 +37,7 @@ unsigned BaseMeshManager::LoadMesh(const std::string meshName)
 		return _names[meshName];
 	}
 
-	auto modelsDir	= FileUtils::CombinePath(PROJECT_DATA_DIR, MODELS_DIR);
+	auto modelsDir	= FileUtils::CombinePath(System::GetProjectDataDir(), MODELS_DIR);
 	auto fileName	= meshName + ".obj";
 	auto meshPath	= FileUtils::CombinePath(modelsDir, fileName);
 	

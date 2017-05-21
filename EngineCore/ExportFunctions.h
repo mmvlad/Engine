@@ -15,3 +15,5 @@ extern "C" __declspec(dllexport)  void Resize(int width, int height);
 extern "C" __declspec(dllexport)  void ReloadScene();
 
 extern "C" __declspec(dllexport)  void ReloadScripts();
+
+extern "C" __declspec(dllexport)  void SetProjectDir(const char* path);

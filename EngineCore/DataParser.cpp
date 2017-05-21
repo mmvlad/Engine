@@ -5,6 +5,7 @@
 #include "FileUtils.h"
 #include "BaseMeshManager.h"
 #include "glm.hpp"
+#include "System.h"
 
 using json = nlohmann::json;
 
@@ -12,7 +13,7 @@ std::vector<std::string> DataParser::GetSceneList()
 {
 	std::vector<std::string> sceneList;
 
-	auto sceneListPath = FileUtils::CombinePath(PROJECT_DATA_DIR, SCENE_LIST_FILENAME);
+	auto sceneListPath = FileUtils::CombinePath(System::GetProjectDataDir(), SCENE_LIST_FILENAME);
 
 	if (!FileUtils::FileExists(sceneListPath))
 	{
@@ -36,7 +37,7 @@ std::vector<std::string> DataParser::GetSceneList()
 
 Scene* DataParser::LoadScene(const std::string& sceneName, BaseMeshManager * meshManager)
 {
-	auto scenesDir = FileUtils::CombinePath(PROJECT_DATA_DIR, SCENES_DIR);
+	auto scenesDir = FileUtils::CombinePath(System::GetProjectDataDir(), SCENES_DIR);
 	auto scenePath = FileUtils::CombinePath(scenesDir, sceneName + ".json"); //TODO(vlad): move extension from here
 
 	if (!FileUtils::FileExists(scenePath))

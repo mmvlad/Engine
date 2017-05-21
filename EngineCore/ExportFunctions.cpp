@@ -1,4 +1,5 @@
 #include "ExportFunctions.h"
+#include "System.h"
 
 void Init(HWND windowHandle)
 {
@@ -29,6 +30,11 @@ void ReloadScene()
 void ReloadScripts()
 {
 	LuaBinding::ReloadScripts();
+}
+
+void SetProjectDir(const char* path)
+{
+	System::SetProjectDir(path);
 }
 
 void Resize(int width, int height)

@@ -3,6 +3,7 @@
 #include "Logger.h"
 #include "json.hpp"
 #include "Shader.h"
+#include "System.h"
 
 using json = nlohmann::json;
 
@@ -45,7 +46,7 @@ const Shader* const ShaderManager::GetFragmentShader(const std::string& name) co
 
 void ShaderManager::LoadShaderList()
 {
-	auto shaderListPath = FileUtils::CombinePath(CONFIG_DIR, SHADERS_FILENAME);
+	auto shaderListPath = FileUtils::CombinePath(System::GetConfigDir(), SHADERS_FILENAME);
 
 	if (!FileUtils::FileExists(shaderListPath))
 	{
@@ -64,7 +65,7 @@ void ShaderManager::LoadShaderList()
 
 void ShaderManager::LoadShaders()
 {
-	auto shaderDir = FileUtils::CombinePath(CONFIG_DIR, SHADERS_DIR);
+	auto shaderDir = FileUtils::CombinePath(System::GetConfigDir(), SHADERS_DIR);
 
 	for (auto it = _shaderList.begin(); it != _shaderList.end(); ++it) {
 		std::string shaderName	= *it;

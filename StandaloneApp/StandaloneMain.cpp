@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "EventLoop.h"
 #include "Logger.h"
+#include "ExportFunctions.h"
 
 // DLL header
 #include "App.h"

@@ -122,7 +122,6 @@ game_state interpolate(game_state const & current, game_state const & previous, 
 	return interpolated_state;
 }
 
-
 void App::ReloadScene()
 {
 	_sceneManager->LoadScene("MainScene");
@@ -137,6 +136,8 @@ App::App()
 void App::Init(HWND hwnd)
 {
 	_hwnd = hwnd;
+
+	System::SetDefaultProjectDir();
 
 	InitInternal();
 }

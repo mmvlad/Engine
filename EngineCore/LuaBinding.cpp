@@ -2,6 +2,7 @@
 #include "FileUtils.h"
 #include "Config.h"
 #include "Logger.h"
+#include "System.h"
 
 std::unordered_map<std::string, sel::State*> LuaBinding::_states;
 
@@ -36,17 +37,14 @@ void LuaBinding::ReloadScripts()
 
 	_states.clear();
 
-	auto dir		= FileUtils::CombinePath(PROJECT_DATA_DIR, SCRIPTS_DIR);
+	auto dir		= FileUtils::CombinePath(System::GetProjectDataDir(), SCRIPTS_DIR);
 	auto searchDir	= FileUtils::CombinePath(dir, "*");
 	auto files		= FileUtils::GetFilesInDir(searchDir);
-
-	auto dirPath = FileUtils::GetCurrentDir();
-	Log::Info("Work dir: " + dirPath);
 
 	for (auto& file : files)
 	{
 		auto scriptFilePath = FileUtils::CombinePath(dir, file);
-		scriptFilePath = FileUtils::CombinePath(dirPath, scriptFilePath);
+		//scriptFilePath = FileUtils::CombinePath(dirPath, scriptFilePath);
 
 		sel::State * state = new sel::State(true);
 		state->Load(scriptFilePath);
