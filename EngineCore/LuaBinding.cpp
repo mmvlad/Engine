@@ -83,9 +83,9 @@ void LuaBinding::ExecuteScripts(GameObject* gameObject)
 		double posX = state["posX"];
 		double posZ = state["posZ"];
 
-		pos.x = posX;
-		pos.y = posY;
-		pos.z = posZ;
+		pos.x = posX + gameObject->_initialPosition.x;
+		pos.y = posY + gameObject->_initialPosition.y;
+		pos.z = posZ + gameObject->_initialPosition.z;
 
 		gameObject->SetPosition(pos);
 	}

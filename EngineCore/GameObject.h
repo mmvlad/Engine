@@ -21,7 +21,7 @@ public:
 	const glm::vec3 &	Scale()			const { return _scale; }
 	const glm::vec3 &	Rotation()		const { return _rotation; }
 
-	void SetPosition(glm::vec3 position)	{ _position = position; }
+	void SetPosition(glm::vec3 position) { _position = position; if (!_inited) { _inited = true; _initialPosition = position; } }
 	void SetScale	(glm::vec3 scale)		{ _scale	= scale; }
 	void SetRotation(glm::vec3 rotation)	{ _rotation = rotation; }
 
@@ -30,6 +30,9 @@ public:
 	const std::vector<std::string> & GetScriptList() const	{ return _scriptList; }
 
 	glm::mat4 ModelMatrix() const;
+
+	//TODO(vlad): remove this after I can pass parameters to lua, this is debug only
+	glm::vec3 _initialPosition;
 
 private:
 	DISALLOW_COPY_AND_ASSIGN(GameObject);
@@ -44,5 +47,8 @@ private:
 	glm::vec3 _rotation;
 
 	std::vector<std::string> _scriptList;
+
+	//TODO(vlad): remove this after I can pass parameters to lua
+	bool _inited = false;
 };
 
