@@ -88,8 +88,12 @@ void GlRender::Render()
 	//TODO(vlad): take color from camera back color
 	GLWrap::SetClearColor(Color::FromHexRGB("20fb82"));
 
-	glEnable(GL_DEPTH_TEST);	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glFrontFace(GL_CW);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	
+	//glFrontFace(GL_CW);
 
 	
 	//GLWrap::ClearBuffer(ClearBufferType::COLOR_BUFFER);

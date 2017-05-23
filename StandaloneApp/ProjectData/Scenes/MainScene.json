@@ -1,16 +1,26 @@
 {
   "objects": [
     {
-      "name": "Cubeeto",
+      "name": "Cube",
       "mesh": "cube",
       "material": "Diffuse",
       "layer": "Default",
-      "position": "0.00,0.00,0.00",
+      "position": "1.00,1.00,0.00",
       "scale": "1.00,1.00,1.00",
       "rotation": "0.00,0.00,0.00",
       "scripts": [
         "test.lua"
       ]
+    },
+    {
+      "name": "Box1",
+      "mesh": "cube",
+      "material": "Diffuse",
+      "layer": "Default",
+      "position": "1.00,0.50,3.00",
+      "scale": "1.00,1.00,1.00",
+      "rotation": "0.00,0.00,0.00",
+      "scripts": []
     }
   ]
 }

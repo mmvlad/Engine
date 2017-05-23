@@ -4,18 +4,21 @@
 
 class Shader;
 
-class GlProgram
+
+
+class GlProgram final
 {
 public:
 	GlProgram();
-	virtual ~GlProgram();
+	~GlProgram();
 
 	void AttachShader(const Shader * const shader);
 	void Link();
 	void Use();
-	bool Inited()		const { return _id != 0; }
-	unsigned int Id()	const { return _id; }
-	bool HasLinked()	const;
+
+	bool Inited()			const { return _id != 0; }
+	unsigned int Id()		const { return _id; }
+	bool HasLinked()		const;
 	int MvpMatrixLocation() const { return _mvpMatrixLocation; }
 
 private:

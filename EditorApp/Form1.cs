@@ -215,7 +215,7 @@ namespace EditorApp
         //X
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (_currentObj != null)
+            if (_currentObj != null && textBox1.Text.Length > 0)
             {
                 _currentObj.Position.X = float.Parse(textBox1.Text);
                 SaveAndReloadScene();
@@ -225,7 +225,7 @@ namespace EditorApp
         //Y
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (_currentObj != null)
+            if (_currentObj != null && textBox2.Text.Length > 0)
             {
                 _currentObj.Position.Y = float.Parse(textBox2.Text);
                 SaveAndReloadScene();
@@ -235,7 +235,7 @@ namespace EditorApp
         //Z
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            if (_currentObj != null)
+            if (_currentObj != null && textBox3.Text.Length > 0)
             {
                 _currentObj.Position.Z = float.Parse(textBox3.Text);
                 SaveAndReloadScene();

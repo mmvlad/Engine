@@ -101,7 +101,7 @@ void ShaderManager::LoadShaders()
 			Shader * vertexShader			= new Shader(ShaderType::VERTEX_SHADER, vertexSource);
 			Shader * fragmentShader			= new Shader(ShaderType::FRAGMENT_SHADER, fragmentSource);
 
-			if (!vertexShader->HasCompiled() || !fragmentShader->HasCompiled())
+			if (!vertexShader->Inited() || !fragmentShader->Inited())
 			{
 				Log::Error("One of the shaders failed to compile. Shader [" + shaderName + "] wasn't loaded");
 

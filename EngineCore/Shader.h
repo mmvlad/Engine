@@ -4,28 +4,23 @@
 #include "Enums.h"
 #include "Includes.h"
 
-class Shader
+class Shader final
 {
 
 public:
 	explicit Shader(const ShaderType & shaderType, const std::string & source);
+	~Shader();
 
-	// Shader object can be deleted after it is attached to the program
-	virtual ~Shader();
 
+	const unsigned int	& Id()			const { return _id; }
+	const ShaderType	& Type()		const { return _type; }
+	const bool			& Inited()		const { return _inited; }
 	
-public:
-	const unsigned int	Id()			const { return _id; }
-	const ShaderType	Type()			const { return _type; }
-	const bool			Inited()		const { return _inited; }
-	bool				HasCompiled()	const;
-
-private:
-	
-	void Compile()		const;
-
 private:
 	DISALLOW_COPY_AND_ASSIGN(Shader);
+
+	void Compile()		const;
+	bool HasCompiled()	const;
 
 	ShaderType		_type;
 	unsigned int	_id;
